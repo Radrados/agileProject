@@ -1,5 +1,6 @@
 from flask import Flask
 # This is a basic flask app, provided in week 6 lecture "Flask Server Side Rendering"
+# To run: flask run
 
 # Create flask object: stores everything about webserver and operates it
 app = Flask(__name__)
