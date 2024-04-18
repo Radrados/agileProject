@@ -1,4 +1,5 @@
 from app import app
+# This file runs the flask app
 
 app = app
 
