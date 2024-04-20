@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Jinja loop - for each page different title -->
+    {% if title %}
+      <title>{{ title }} - Chugg</title>
+    {% else %}
+      <title>Welcome to Chugg</title>
+    {% endif %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div>
+            <a class="nav-item nav-link" id="home" href="/">Home</a>
+            <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+            <a class="nav-item nav-link" id="login" href="/login">Login</a>
+            <a class="nav-item nav-link" id="register" href="/register">Register</a>
+        </div>
+    </nav>
+    <hr>
+    <!-- Other html file's content -->
+    {% block content %}{% endblock %}
+    <!-- Common footer -->
+    <footer>
+        <p>&copy; 2024 Chugg</p>
+    </footer>
+</body>
+</html>
