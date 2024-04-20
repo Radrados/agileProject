@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
     <header>
         <h1>Register to Chugg</h1>
     </header>
@@ -19,8 +16,4 @@
             <button type="submit">Register</button>
         </form>
     </main>
-    <footer>
-        <p>&copy; 2024 Chugg</p>
-    </footer>
-</body>
-</html>
+{% endblock %}

@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
     <header>
         <h1>Login to Chugg</h1>
     </header>
@@ -17,9 +14,5 @@
             <button type="submit">Login</button>
         </form>
     </main>
-    <footer>
-        <p>&copy; 2024 Chugg</p>
-    </footer>
-</body>
-</html>
+{% endblock %}
 

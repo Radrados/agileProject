@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ title }} Page</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-<body>
-    <header>
-        <h1>Chugg Home</h1>
-    </header>
-    <main>
-        <p>{{ user.username }}, Welcome back to Chugg!</p>
-    </main>
-    <footer>
-        <p>&copy; 2024 Chugg</p>
-    </footer>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+        <h1>{{ user.username }}, Welcome back to Chugg!</h1>
+        {% for post in posts %}
+        <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
+        {% endfor %}
+{% endblock %}
