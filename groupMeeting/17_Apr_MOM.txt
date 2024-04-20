@@ -1,0 +1,20 @@
+Minute Of Meeting 17/04/2024
+Attendies:
+Radin
+Rados
+Nikita
+
+Apoligies:
+Madhav
+
+Agenda of Meeting:
+- Github workflow guide
+- Project Question
+- List of features & deliverables
+- Assign tasks
+
+Meeting outcomes:
+- Agreed on Github workflow
+- Decided on three deliverable: Sign Up/Login feature, Commenting on Posts, and All features + front end
+- Assigned tasks to team members (please look at issue tab or projects tab "Agile Project Management" Kanbanboard)
+
