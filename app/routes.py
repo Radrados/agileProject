@@ -15,7 +15,7 @@ def index():
             'author': {'username': 'Susan'},
             'body': 'The Avengers movie was so cool!'
     }]
-    return render_template('home.html', title='Home', user=user, posts=posts)
+    return render_template('home.html', user=user, posts=posts)
 
 
 # Plain landing page
@@ -26,11 +26,11 @@ def landing():
 # Require authentication
 @app.route('/login')
 def login():
-    return render_template('login.html', title='Login')
+    return render_template('login.html')
 
 @app.route('/register')
 def register():
-    return render_template('register.html', title='Register')
+    return render_template('register.html')
 
 @app.route('/logout')
 def logout():

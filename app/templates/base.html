@@ -3,12 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Jinja loop - for each page different title -->
-    {% if title %}
-      <title>{{ title }} - Chugg</title>
-    {% else %}
-      <title>Welcome to Chugg</title>
-    {% endif %}
+    <title>
+        {% block title %}Welcome to Chugg{% endblock %}
+    </title>
 </head>
 <body>
     <!-- Navigation -->
