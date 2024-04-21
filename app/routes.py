@@ -1,5 +1,5 @@
 from . import app
-from flask import render_template
+from flask import render_template, redirect, url_for, request
 # This file is responsible for the routing between the different flask python files and front end html files
 
 @app.route('/')
@@ -24,12 +24,27 @@ def landing():
     return render_template('landing.html')
 
 # Require authentication
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.method == "POST":
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        # Assume email and password are correct --> user logs in
+        return redirect(url_for('index'))
     return render_template('login.html')
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
+    if request.method == "POST":
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        confirmed_password = request.form.get('confirm-password')
+
+        if password == confirmed_password:
+            return redirect(url_for('index'))
     return render_template('register.html')
 
 @app.route('/logout')
