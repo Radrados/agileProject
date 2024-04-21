@@ -11,10 +11,10 @@
     <!-- Navigation -->
     <nav>
         <div>
-            <a class="nav-item nav-link" id="home" href="/">Home</a>
-            <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
-            <a class="nav-item nav-link" id="login" href="/login">Login</a>
-            <a class="nav-item nav-link" id="register" href="/register">Register</a>
+            <a class="nav-item nav-link" id="home" href="{{ url_for('index') }}">Home</a>
+            <a class="nav-item nav-link" id="logout" href="{{ url_for('logout') }}">Logout</a>
+            <a class="nav-item nav-link" id="login" href="{{ url_for('login') }}">Login</a>
+            <a class="nav-item nav-link" id="register" href="{{ url_for('register') }}">Register</a>
         </div>
     </nav>
     <hr>
