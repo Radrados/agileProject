@@ -1,5 +1,5 @@
 from . import app
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, flash
 # This file is responsible for the routing between the different flask python files and front end html files
 
 @app.route('/')
@@ -29,7 +29,7 @@ def login():
     if request.method == "POST":
         email = request.form.get('email')
         password = request.form.get('password')
-
+        flash('Logged in successfully!', category='success')
         # Assume email and password are correct --> user logs in
         return redirect(url_for('index'))
     return render_template('login.html')
@@ -44,7 +44,10 @@ def register():
         confirmed_password = request.form.get('confirm-password')
 
         if password == confirmed_password:
+            flash('Account Created successfully!', category='success')
             return redirect(url_for('index'))
+        else:
+            flash('Account could not be created!', category='success')
     return render_template('register.html')
 
 @app.route('/logout')
