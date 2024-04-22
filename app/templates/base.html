@@ -12,9 +12,12 @@
     <nav>
         <div>
             <a class="nav-item nav-link" id="home" href="{{ url_for('index') }}">Home</a>
-            <a class="nav-item nav-link" id="logout" href="{{ url_for('logout') }}">Logout</a>
+            {% if current_user.is_anonymous %}
             <a class="nav-item nav-link" id="login" href="{{ url_for('login') }}">Login</a>
             <a class="nav-item nav-link" id="register" href="{{ url_for('register') }}">Register</a>
+            {% else %}
+            <a class="nav-item nav-link" id="logout" href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
         </div>
     </nav>
     <hr>

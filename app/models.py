@@ -5,8 +5,9 @@ import sqlalchemy as sql_al
 import sqlalchemy.orm as sql_orm
 from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     id: sql_orm.Mapped[int] = sql_orm.mapped_column(primary_key=True)
     username: sql_orm.Mapped[str] = sql_orm.mapped_column(sql_al.String(64), index=True, unique=True)
     first_name: sql_orm.Mapped[str] = sql_orm.mapped_column(sql_al.String(32), index=True)
