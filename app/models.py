@@ -1,8 +1,10 @@
+from app import login
 from datetime import datetime, timezone
 from typing import Optional
 import sqlalchemy as sql_al
 import sqlalchemy.orm as sql_orm
 from app import db
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(db.Model):
     id: sql_orm.Mapped[int] = sql_orm.mapped_column(primary_key=True)
@@ -16,6 +18,12 @@ class User(db.Model):
     # prints object of this class --> debuging 
     def __repr__(self):
         return '<User {}>'.format(self.email)
+    
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
     
 # This is temporary the schema will change in the future features
 class Post(db.Model):
