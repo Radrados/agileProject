@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}Welcome to Chugg{% endblock %}
+    </title>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div>
+            <a class="nav-item nav-link" id="home" href="{{ url_for('index') }}">Home</a>
+            {% if current_user.is_anonymous %}
+            <a class="nav-item nav-link" id="login" href="{{ url_for('login') }}">Login</a>
+            <a class="nav-item nav-link" id="register" href="{{ url_for('register') }}">Register</a>
+            {% else %}
+            <a class="nav-item nav-link" id="logout" href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
+        </div>
+    </nav>
+    <hr>
+
+    <!-- Show flash messages -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for msg in messages %}
+            <li>{{ msg }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+
+    <!-- Other html file's content -->
+    {% block content %}{% endblock %}
+    <!-- Common footer -->
+    <footer>
+        <p>&copy; 2024 Chugg</p>
+    </footer>
+</body>
+</html>
