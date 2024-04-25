@@ -1,4 +1,4 @@
-IDEAS and CONCEPTS interested to IMPLEMENT in the AGILE PROJECT
+IDEAS and CONCEPTS interested in IMPLEMENT in the AGILE PROJECT
 
 1. Higher upvote user has = cooler the profile pic (they could get drunker)
 2. Instead of writing questions in the body of a post, users can upload files (limited size maybe)
@@ -20,3 +20,7 @@ IDEAS and CONCEPTS interested to IMPLEMENT in the AGILE PROJECT
 9. Posts display the different Timezone & Dates
 10. Translate texts to different Languages
 11. Notification for post authors to know that they have gotten a comment
+12. Develope testings such as Selenium: https://www.techbeamers.com/selenium-webdriver-python-tutorial/
+
+
+Other resources: https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
