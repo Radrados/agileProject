@@ -1,0 +1,22 @@
+IDEAS and CONCEPTS interested to IMPLEMENT in the AGILE PROJECT
+
+1. Higher upvote user has = cooler the profile pic (they could get drunker)
+2. Instead of writing questions in the body of a post, users can upload files (limited size maybe)
+3. Higher user-authenitication in the following areas:
+  -  Making username unique for the user database
+  -  3 password attempts limit
+  -  ensure the password is at least 8 characters, includes letters, numbers, special characters, and does not contain part of the user's name/username (this one is extra)
+  -  Email verfication to ensure user registers a valid email
+4. Reset Password when user forget their password
+5. Add new PAGES:
+  -  Home page: this shows the user their own posts
+  -  Profile page: this page shows the user's profile information, i.e. name, age, bio, university, degree, personal email, followers, etc.
+  -  Profile edit page: possibly the same as the above page except when user clicks "edit" button they can update certain informantion.
+  -  Explore page: this page shows the user, other people's posts
+  -  Other's posts page: maybe when the user selects a post they are taken to a different page that has that post along with all of its comments rendered into the page.
+6. Full Text Search
+7. Pagination
+8. Followers
+9. Posts display the different Timezone & Dates
+10. Translate texts to different Languages
+11. Notification for post authors to know that they have gotten a comment
