@@ -88,3 +88,19 @@ def register():
 def logout():
     logout_user()
     return render_template('landing.html')
+
+
+@app.route('/create_post', methods=['POST'])
+@login_required  
+def create_post():
+    title = request.form['title']
+    body = request.form['body']
+    if not title or not body:
+        flash('Post must have a title and body.')
+        return redirect(url_for('index'))
+
+    new_post = Post(title=title, body=body, author=current_user)
+    db.session.add(new_post)
+    db.session.commit()
+    flash('Your post has been created!')
+    return redirect(url_for('index'))
