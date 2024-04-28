@@ -40,7 +40,20 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post {}>'.format(self.body)
 
+class Comment(db.Model):
+    id: sql_orm.Mapped[int] = sql_orm.mapped_column(primary_key=True)
+    body: sql_orm.Mapped[str] = sql_orm.mapped_column(sql_al.String(1000)) #we'll have to decide how long the comments need to be
+    timestamp: sql_orm.Mapped[datetime] = sql_orm.mapped_column(index=True, default=lambda: datetime.now(timezone.utc))
+    post_id: sql_orm.Mapped[int] = sql_orm.mapped_column(sql_al.ForeignKey('post.id'), index=True)
+    user_id: sql_orm.Mapped[int] = sql_orm.mapped_column(sql_al.ForeignKey('user.id'), index=True)
+    author: sql_orm.Mapped[User] = sql_orm.relationship('User', back_populates='comments')
+    post: sql_orm.Mapped[Post] = sql_orm.relationship('Post', back_populates='comments')
 
+    def __repr__(self):
+        return '<Comment {}>'.format(self.body)
+
+User.comments = sql_orm.relationship('Comment', back_populates='author', foreign_keys=[Comment.user_id])
+Post.comments = sql_orm.relationship('Comment', back_populates='post', foreign_keys=[Comment.post_id], order_by='Comment.timestamp') #implement upvotes, but I reckon it's just adding valudes and letting users increment them
 @login.user_loader
 def load_user(id):
     return db.session.get(User, int(id))
