@@ -63,9 +63,12 @@ def register():
         password = request.form.get('password')
         confirmed_password = request.form.get('confirm-password')
 
-        user = User.query.filter_by(email=email).first()
-        if user:
+        email_exist = User.query.filter_by(email=email).first()
+        user_exist = User.query.filter_by(username=username).first()
+        if email_exist:
             flash('Email already exists.', category='error')
+        elif user_exist:
+            flash('Username already exists.', category='error')
         elif len(email) < 4:
             flash('Email must be greater than 3 characters.', category='error')
         elif len(first_name) < 2:
