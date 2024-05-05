@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, request, flash, request
 from flask_login import current_user, login_user,  logout_user, login_required
 import sqlalchemy as sql_al
 from app import db
-from app.models import User
+from app.models import User, Post, Comment
 from urllib.parse import urlsplit
 # This file is responsible for the routing between the different flask python files and front end html files
 
@@ -63,12 +63,9 @@ def register():
         password = request.form.get('password')
         confirmed_password = request.form.get('confirm-password')
 
-        email_exist = User.query.filter_by(email=email).first()
-        user_exist = User.query.filter_by(username=username).first()
-        if email_exist:
+        user = User.query.filter_by(email=email).first()
+        if user:
             flash('Email already exists.', category='error')
-        elif user_exist:
-            flash('Username already exists.', category='error')
         elif len(email) < 4:
             flash('Email must be greater than 3 characters.', category='error')
         elif len(first_name) < 2:
@@ -91,3 +88,34 @@ def register():
 def logout():
     logout_user()
     return render_template('landing.html')
+
+#add posts and comments to  the database
+@app.route('/create_post', methods=['POST']) # the route accessing which creates a post
+@login_required  
+def create_post(): #post creation
+    title = request.form['title'] #retrieve data from the html form
+    body = request.form['body']
+    comment_body = request.form.get('comment')
+
+    if not title or not body:
+        flash('Post must have a title and body.')
+        #the flashes don't show up anywhere rn, but they're useful to have
+        return redirect(url_for('index'))
+
+    new_post = Post(title=title, body=body, author=current_user)
+    db.session.add(new_post)
+    db.session.commit()
+
+    if comment_body: # if the comment field is filled in makes the comment
+        comment = Comment(body=comment_body, post_id=new_post.id, user_id=current_user.id)
+        db.session.add(comment)
+    db.session.commit()
+    flash('Your post has been created!')
+    return redirect(url_for('index'))
+
+
+#displays all the posts at /posts page
+@app.route('/posts', methods=['GET']) 
+def posts():
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    return render_template('posts.html', posts=posts)
