@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="post">
+        <h1>{{ post.title }}</h1>
+        <p>{{ post.body }}</p>
+        <small>Posted by {{ post.author.username }} on {{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+    </div>
+
+    <hr>
+
+    <div class="comments">
+        <h2>Comments</h2>
+        {% for comment in comments %}
+            <div class="comment">
+                <p>{{ comment.body }}</p>
+                <small>Commented by {{ comment.author.username }} on {{ comment.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+            </div>
+        {% else %}
+            <p>No comments yet.</p>
+        {% endfor %}
+    </div>
+
+    <hr>
+
+    <div class="comment-form">
+        <h2>Leave a comment</h2>
+        <form action="{{ url_for('post', post_id=post.id) }}" method="post">
+            <textarea name="comment" required="required" placeholder="Write your comment here..." rows="4"></textarea><br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+{% endblock %}
