@@ -3,6 +3,7 @@ from flask import render_template, redirect, url_for, request, flash, request
 from flask_login import current_user, login_user,  logout_user, login_required
 import sqlalchemy as sql_al
 from app import db
+
 from app.models import User, Post, Comment
 from urllib.parse import urlsplit
 # This file is responsible for the routing between the different flask python files and front end html files
