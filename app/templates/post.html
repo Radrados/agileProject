@@ -3,6 +3,8 @@
     This is the post page, where the post and comments are displayed -->
 
 {% block content %}
+    <!-- Button to go back to home page, use css to stylise it -->
+    <button type="button" class="btn-close" aria-label="Close" onclick="location.href='{{ url_for('index') }}';">X</button>
     <div class="post">
         <h1>{{ post.title }}</h1>
         <p>{{ post.body }}</p>
