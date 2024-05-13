@@ -2,6 +2,7 @@
 {% block title %}Home - Chugg {% endblock %}
 
 {% block content %}
+        <!-- Only logged in users can create posts -->
         {% if current_user.is_authenticated %}
                 <h1>Hi, {{ current_user.username }}!</h1>
                 <h2>Welcome back to Chugg!</h2>
@@ -24,11 +25,7 @@
                 </form>
         {% endif %}
 
-        <!-- this could be used to show to user all their own posts-->
-        <!--{% for post in posts %}
-        <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
-        {% endfor %}-->
-
+        <!-- All visitors can see all posts, however must be logged in to view inside posts-->
         <div>
                 <h1>Posts</h1>
                 {% for post in posts %}
