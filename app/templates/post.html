@@ -8,7 +8,11 @@
     <div class="post">
         <h1>{{ post.title }}</h1>
         <p>{{ post.body }}</p>
-        <small>Posted by {{ post.author.username }} on {{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+        <!--<small>Posted by {{ post.author.username }} on {{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>-->
+        <small>Posted by {{ post.author.username }} on {{ moment(post.timestamp).fromNow() }}, {{ moment(post.timestamp).format('LL') }}</small>
+
+        
+        <!--{{ moment(post.timestamp).fromNow() }}-->
     </div>
 
     <hr>
@@ -18,7 +22,8 @@
         {% for comment in comments %}
             <div class="comment">
                 <p>{{ comment.body }}</p>
-                <small>Commented by {{ comment.author.username }} on {{ comment.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                <small>Commented by {{ comment.author.username }} on {{ moment(comment.timestamp).fromNow() }}, {{ moment(comment.timestamp).format('LL') }}</small>
+                
             </div>
         {% else %}
             <p>No comments yet.</p>
