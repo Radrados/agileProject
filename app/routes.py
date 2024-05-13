@@ -10,15 +10,10 @@ from urllib.parse import urlsplit
 
 @app.route('/')
 @app.route('/index')
-@login_required
+##@login_required
 def index():
-    posts = [{
-            'author': {'username': 'John'},
-            'body': 'Beautiful day in Portland!'},
-    {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-    }]
+    #displays all the posts in home page
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
     return render_template('home.html', posts=posts)
 
 
@@ -30,8 +25,8 @@ def landing():
 # Require authentication
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
+    #if current_user.is_authenticated:
+    #    return redirect(url_for('index'))
     
     if request.method == "POST":
         email = request.form.get('email')
@@ -113,13 +108,6 @@ def create_post(): #post creation
     db.session.commit()
     flash('Your post has been created!')
     return redirect(url_for('index'))
-
-
-#displays all the posts at /posts page
-@app.route('/posts', methods=['GET']) 
-def posts():
-    posts = Post.query.order_by(Post.timestamp.desc()).all()
-    return render_template('posts.html', posts=posts)
 
 @app.route('/post/<int:post_id>', methods=['GET', 'POST'])
 @login_required
