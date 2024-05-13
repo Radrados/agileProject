@@ -25,8 +25,8 @@ def landing():
 # Require authentication
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    #if current_user.is_authenticated:
-    #    return redirect(url_for('index'))
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     
     if request.method == "POST":
         email = request.form.get('email')
