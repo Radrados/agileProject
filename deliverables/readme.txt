@@ -4,6 +4,6 @@ The repository should also include a folder called "deliverables", within the fo
 2. be named the same as a Git tag in the project. That tag should point to the commit where the video/image was made.
 
 The three deliverables will be:
-1. Sign Up/Login feature -  video will display a user signing up and entering the home page.
+1. v0.1_SignUp_and_Login_feature.mp4 -  the video will display a user signing up and entering the home page.
 2. Commenting on Posts - the video will show a user adding comments to another user's Posts.
 3. All features + front end - the video will show the new friendly web interface such as upvoting and downvoting Posts/comments
