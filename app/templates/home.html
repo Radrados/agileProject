@@ -2,27 +2,43 @@
 {% block title %}Home - Chugg {% endblock %}
 
 {% block content %}
-        <h1>Hi, {{ current_user.username }}!</h1>
-        <h2>Welcome back to Chugg!</h2>
+        {% if current_user.is_authenticated %}
+                <h1>Hi, {{ current_user.username }}!</h1>
+                <h2>Welcome back to Chugg!</h2>
 
-        <form method="post" action="{{ url_for('create_post') }}">
-                <div>
-                        <label for="title">Title</label>
-                        <input type="text" id="title" name="title" required>
-                </div>
-                <div>
-                        <label for="body">Body</label>
-                        <textarea id="body" name="body" rows="3" required></textarea>
+                <form method="post" action="{{ url_for('create_post') }}">
+                        <div>
+                                <label for="title">Title</label>
+                                <input type="text" id="title" name="title" required>
+                        </div>
+                        <div>
+                                <label for="body">Body</label>
+                                <textarea id="body" name="body" rows="3" required></textarea>
 
-                </div>
-                <div>
-                        <label for="comment">Comment</label>
-                        <textarea id="comment" name="comment" rows="2" required></textarea>
-                </div>
-                <button type="submit">Post</button>
-        </form>
+                        </div>
+                        <div>
+                                <label for="comment">Comment</label>
+                                <textarea id="comment" name="comment" rows="2" required></textarea>
+                        </div>
+                        <button type="submit">Post</button>
+                </form>
+        {% endif %}
 
-        {% for post in posts %}
+        <!-- this could be used to show to user all their own posts-->
+        <!--{% for post in posts %}
         <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
-        {% endfor %}
+        {% endfor %}-->
+
+        <div>
+                <h1>Posts</h1>
+                {% for post in posts %}
+                <div>
+                    <h2><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h2>
+                    <p>{{ post.body }}</p>
+                    <small>Posted on {{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                </div>
+                {% else %}
+                <p>No posts to show.</p>
+                {% endfor %}
+            </div>
 {% endblock %}
