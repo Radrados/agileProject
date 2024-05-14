@@ -19,6 +19,7 @@
             <a class="nav-item nav-link" id="login" href="{{ url_for('login') }}">Login</a>
             <a class="nav-item nav-link" id="register" href="{{ url_for('register') }}">Register</a>
             {% else %}
+            <a class="nav-item nav-link" id="user_profile" href="{{ url_for('user', username=current_user.username) }}">My Profile</a>
             <a class="nav-item nav-link" id="logout" href="{{ url_for('logout') }}">Logout</a>
             {% endif %}
         </div>
