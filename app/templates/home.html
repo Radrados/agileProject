@@ -36,10 +36,10 @@
                 <div>
                     <h2><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h2>
                     <p>{{ post.body }}</p>
-                    <small>Posted on {{ moment(post.timestamp).fromNow() }}, {{ moment(post.timestamp).format('LL') }}</small>
+                    <small>Posted by {{ post.author.username }} <br> On {{ moment(post.timestamp).fromNow() }}, {{ moment(post.timestamp).format('LL') }}</small>
                 </div>
                 {% else %}
                 <p>No posts to show.</p>
                 {% endfor %}
-            </div>
+        </div>
 {% endblock %}
