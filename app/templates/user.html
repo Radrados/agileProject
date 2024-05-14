@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content  %}
+    <h1>User: {{ user.username }}</h1>
+    <hr>
+    <h2>Posts</h2>
+    {% for post in posts %}
+        <div>
+            <h2><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h2>
+            <p>{{ post.body }}</p>
+            <small>{{ post.author.username }}, {{ moment(post.timestamp).format('LL') }}</small>
+            
+        </div>
+        {% else %}
+        <p>No posts to show.</p>
+    {% endfor %}
+
+{% endblock %}
