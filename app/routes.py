@@ -3,11 +3,11 @@ from flask import render_template, redirect, url_for, request, flash, request
 from flask_login import current_user, login_user,  logout_user, login_required
 import sqlalchemy as sql_al
 from app import db
-
 from app.models import User, Post, Comment
 from urllib.parse import urlsplit
-# This file is responsible for the routing between the different flask python files and front end html files
 
+# This file is responsible for the routing between the different flask python files and front end html files
+# This is the route to the home page
 @app.route('/')
 @app.route('/index')
 ##@login_required
@@ -17,11 +17,12 @@ def index():
     return render_template('home.html', posts=posts)
 
 
-# Plain landing page
+# Route to landing/introductory page for instructions on app services
 @app.route('/landing')
 def landing():
     return render_template('landing.html')
 
+# Route to login page
 # Require authentication
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -46,6 +47,7 @@ def login():
     
     return render_template('login.html')
 
+# Register route to create new accounts
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -85,7 +87,7 @@ def logout():
     logout_user()
     return render_template('landing.html')
 
-#add posts and comments to  the database
+#add posts and comments to the database
 @app.route('/create_post', methods=['POST']) # the route accessing which creates a post
 @login_required  
 def create_post(): #post creation
@@ -123,3 +125,13 @@ def post(post_id):
             flash('Your comment has been added.', category='success')
             return redirect(url_for('post', post_id=post_id))
     return render_template('post.html', post=post, comments=comments)
+
+
+# Route to user profile page
+@app.route('/user/<username>')
+@login_required
+def user(username):
+    user = db.first_or_404(sql_al.select(User).where(User.username == username))
+    posts = Post.query.filter_by(user_id = user.id)
+    posts = posts.order_by(Post.timestamp.desc()).all()
+    return render_template('user.html', user=user, posts=posts)
