@@ -16,6 +16,7 @@ class User(UserMixin, db.Model):
     email: sql_orm.Mapped[str] = sql_orm.mapped_column(sql_al.String(120), index=True, unique=True)
     password_hash: sql_orm.Mapped[Optional[str]] = sql_orm.mapped_column(sql_al.String(256))
     posts: sql_orm.WriteOnlyMapped['Post'] = sql_orm.relationship(back_populates='author')
+    about_me: sql_orm.Mapped[Optional[str]] = sql_orm.mapped_column(sql_al.String(140))
 
     # prints object of this class --> debuging 
     def __repr__(self):
