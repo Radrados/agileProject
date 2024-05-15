@@ -1,3 +1,5 @@
+<!-- This is the base.html template
+    It contains the navigation bar, flash messages and the footer -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +15,7 @@
         <div>
             <a class="nav-item nav-link" id="home" href="{{ url_for('index') }}">Home</a>
             {% if current_user.is_anonymous %}
+            <a class="nav-item nav-link" id="landing" href="{{ url_for('landing') }}">Landing</a>
             <a class="nav-item nav-link" id="login" href="{{ url_for('login') }}">Login</a>
             <a class="nav-item nav-link" id="register" href="{{ url_for('register') }}">Register</a>
             {% else %}
@@ -40,5 +43,6 @@
     <footer>
         <p>&copy; 2024 Chugg</p>
     </footer>
+    {{ moment.include_moment() }}
 </body>
 </html>
