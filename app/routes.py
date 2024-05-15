@@ -12,9 +12,16 @@ from urllib.parse import urlsplit
 @app.route('/index')
 ##@login_required
 def index():
+    page = request.args.get('page', 1, type=int)
     #displays all the posts in home page
-    posts = Post.query.order_by(Post.timestamp.desc()).all()
-    return render_template('home.html', posts=posts)
+    query = Post.query.order_by(Post.timestamp.desc())
+    posts = db.paginate(query, page=page, per_page=app.config['POST_PER_PAGE'], error_out=False)
+    next_url, prev_url = None, None
+    if posts.has_next:
+        next_url = url_for('index', page=posts.next_num)
+    if posts.has_prev:
+        prev_url = url_for('index', page=posts.prev_num)
+    return render_template('home.html', posts=posts.items, next_url=next_url, prev_url=prev_url)
 
 
 # Route to landing/introductory page for instructions on app services
@@ -132,9 +139,15 @@ def post(post_id):
 @login_required
 def user(username):
     user = db.first_or_404(sql_al.select(User).where(User.username == username))
-    posts = Post.query.filter_by(user_id = user.id)
-    posts = posts.order_by(Post.timestamp.desc()).all()
-    return render_template('user.html', user=user, posts=posts)
+    page = request.args.get('page', 1, type=int)
+    query = user.posts.select().order_by(Post.timestamp.desc())
+    posts = db.paginate(query, page=page, per_page=app.config['POST_PER_PAGE'], error_out=False)
+    next_url, prev_url = None, None
+    if posts.has_next:
+        next_url = url_for('user', username=user.username, page=posts.next_num)
+    if posts.has_prev:
+        prev_url = url_for('user', username=user.username, page=posts.prev_num)
+    return render_template('user.html', user=user, posts=posts.items, next_url=next_url, prev_url=prev_url)
 
 @app.route('/search', methods=['POST'])
 def search(): 
@@ -156,5 +169,5 @@ def search():
         conditions.append(Post.body.ilike(f'%{tag}%'))
         
     query = sql_al.or_(*conditions) # create the query that will accept the tags either in the title or the body
-    search_results = Post.query.filter(query).all()       
+    search_results = Post.query.filter(query).order_by(Post.timestamp.desc()).all()      
     return render_template('home.html', posts=search_results)
