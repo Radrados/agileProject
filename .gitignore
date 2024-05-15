@@ -1,0 +1,8 @@
+# Ignore Python bytecode
+__pycache__/
+
+# Ignore virtual environment directory
+tmp_env/
+
+# Ignore database file
+app.db
