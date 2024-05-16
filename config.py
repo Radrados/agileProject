@@ -7,3 +7,4 @@ class Config:
     # else config from database named app.db located in the main directory
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
+    POST_PER_PAGE = 3

@@ -3,25 +3,33 @@ from flask import render_template, redirect, url_for, request, flash, request
 from flask_login import current_user, login_user,  logout_user, login_required
 import sqlalchemy as sql_al
 from app import db
-
 from app.models import User, Post, Comment
 from urllib.parse import urlsplit
-# This file is responsible for the routing between the different flask python files and front end html files
 
+# This file is responsible for the routing between the different flask python files and front end html files
+# This is the route to the home page
 @app.route('/')
 @app.route('/index')
 ##@login_required
 def index():
+    page = request.args.get('page', 1, type=int)
     #displays all the posts in home page
-    posts = Post.query.order_by(Post.timestamp.desc()).all()
-    return render_template('home.html', posts=posts)
+    query = Post.query.order_by(Post.timestamp.desc())
+    posts = db.paginate(query, page=page, per_page=app.config['POST_PER_PAGE'], error_out=False)
+    next_url, prev_url = None, None
+    if posts.has_next:
+        next_url = url_for('index', page=posts.next_num)
+    if posts.has_prev:
+        prev_url = url_for('index', page=posts.prev_num)
+    return render_template('home.html', posts=posts.items, next_url=next_url, prev_url=prev_url)
 
 
-# Plain landing page
+# Route to landing/introductory page for instructions on app services
 @app.route('/landing')
 def landing():
     return render_template('landing.html')
 
+# Route to login page
 # Require authentication
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -46,6 +54,7 @@ def login():
     
     return render_template('login.html')
 
+# Register route to create new accounts
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -85,7 +94,7 @@ def logout():
     logout_user()
     return render_template('landing.html')
 
-#add posts and comments to  the database
+#add posts and comments to the database
 @app.route('/create_post', methods=['POST']) # the route accessing which creates a post
 @login_required  
 def create_post(): #post creation
@@ -123,3 +132,42 @@ def post(post_id):
             flash('Your comment has been added.', category='success')
             return redirect(url_for('post', post_id=post_id))
     return render_template('post.html', post=post, comments=comments)
+
+
+# Route to user profile page
+@app.route('/user/<username>')
+@login_required
+def user(username):
+    user = db.first_or_404(sql_al.select(User).where(User.username == username))
+    page = request.args.get('page', 1, type=int)
+    query = user.posts.select().order_by(Post.timestamp.desc())
+    posts = db.paginate(query, page=page, per_page=app.config['POST_PER_PAGE'], error_out=False)
+    next_url, prev_url = None, None
+    if posts.has_next:
+        next_url = url_for('user', username=user.username, page=posts.next_num)
+    if posts.has_prev:
+        prev_url = url_for('user', username=user.username, page=posts.prev_num)
+    return render_template('user.html', user=user, posts=posts.items, next_url=next_url, prev_url=prev_url)
+
+@app.route('/search', methods=['POST'])
+def search(): 
+    search_post = request.form.get('search-post')
+    if not search_post:
+        flash('You must enter textphrase to search for in title', category='error')
+        return redirect(url_for('index'))
+    
+    # If the user searchs for i.e. 'Introductory Chugg' but there is only 'Introductory to Chugg', we will not get the result
+    # Split the search_post string into an array of tags and query for each tag
+    search_tags = search_post.split(' ')
+    if not search_tags:
+        flash("No valid tags found", category='error')
+        return redirect(url_for('index'))
+    
+    conditions = [] # creating a list of search conditions
+    for tag in search_tags: # for each tag in the array, search the Post title and body for the tag
+        conditions.append(Post.title.ilike(f'%{tag}%'))
+        conditions.append(Post.body.ilike(f'%{tag}%'))
+        
+    query = sql_al.or_(*conditions) # create the query that will accept the tags either in the title or the body
+    search_results = Post.query.filter(query).order_by(Post.timestamp.desc()).all()      
+    return render_template('home.html', posts=search_results)
