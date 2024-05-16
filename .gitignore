@@ -6,3 +6,5 @@ tmp_env/
 
 # Ignore database file
 app.db
+
+./idea
