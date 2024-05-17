@@ -1,18 +1,38 @@
-{% extends "base.html" %}
-{% block title %}Login - Chugg {% endblock %}
 
-{% block content %}
-    <header>
-        <h1>Login to Chugg</h1>
-    </header>
-    <main>
-        <form method="POST">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Email" required>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="logo-title-container">
+        <img src="assets/chegg logo.png" alt="Chegg">
+        <span class="logo-title">Chugg</span>
+    </div>
+
+    <div class="login-container">
+        <h2>Login to your account</h2>
+        <form action="/login" method="POST">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-links">
+                <a href="/forgot-password">Forgot password?</a>
+            </div>
+            <button type="submit" class="btn-login">Sign in</button>
         </form>
-    </main>
-{% endblock %}
-
+        <p class="signup-text">
+            Don’t have an account? <a href="/sign-up">Sign up</a>
+        </p>
+        <p class="footer-text">chugg for students. by students.</p>
+    </div>
+</body>
+</html>

@@ -1,53 +1,45 @@
 {% extends "base.html" %}
 {% block title %}Home - Chugg {% endblock %}
-<!-- app/templates/home.html
-        This is the home page for Chugg.
-        It shows all posts, however to create posts and see its content, must be logged in. 
--->
 
 {% block content %}
-        <!-- Only logged in users can create posts -->
-        {% if current_user.is_authenticated %}
-                <h1>Hi, {{ current_user.username }}!</h1>
-                <h2>Welcome back to Chugg!</h2>
-
-                <form method="post" action="{{ url_for('create_post') }}">
-                        <div>
-                                <label for="title">Title</label>
-                                <input type="text" id="title" name="title" required>
-                        </div>
-                        <div>
-                                <label for="body">Body</label>
-                                <textarea id="body" name="body" rows="3" required></textarea>
-
-                        </div>
-                        <div>
-                                <label for="comment">Comment</label>
-                                <textarea id="comment" name="comment" rows="2" required></textarea>
-                        </div>
-                        <button type="submit">Post</button>
-                </form>
-        {% endif %}
-
-        <!-- All visitors can see all posts, however must be logged in to view inside posts-->
-        <div>
-                <h1>Posts</h1>
-                {% for post in posts %}
-                <div>
-                    <h2><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h2>
-                    <p>{{ post.body }}</p>
-                    <small>Posted by {{ post.author.username }} <br> On {{ moment(post.timestamp).fromNow() }}, {{ moment(post.timestamp).format('LL') }}</small>
-                </div>
-                {% else %}
-                <p>No posts to show.</p>
-                {% endfor %}
-                {% if prev_url %}
-                <a href="{{ prev_url }}">Newer posts</a>
-                {% endif %}
-                {% if next_url %}
-                <a href="{{ next_url }}">Older posts</a>
-                {% endif %}
+<main class="container">
+    <!-- Greeting and form for logged-in users to create posts -->
+    {% if current_user.is_authenticated %}
+        <div class="py-4">
+            <h1 class="display-4">Hi, {{ current_user.username }}!</h1>
+            <h2 class="fs-5">Welcome back to Chugg!</h2>
         </div>
 
+        <!-- Form for submitting new posts, styled with Bootstrap for consistency -->
+        <form method="post" action="{{ url_for('create_post') }}" class="mb-4">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" id="title" name="title" required class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="body" class="form-label">Body</label>
+                <textarea id="body" name="body" rows="4" required class="form-control"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Post</button>
+        </form>
+    {% endif %}
 
+    <!-- Section for displaying all posts -->
+    <div>
+        <h1 class="mb-3">Recent Posts</h1>
+        <!-- Loop through all posts and display each one with a link to its detailed view -->
+        {% for post in posts %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h3 class="card-title"><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h3>
+                    <p class="card-text">{{ post.body }}</p>
+                    <!-- Display timestamp with moment.js -->
+                    <small class="text-muted">Posted on {{ moment(post.timestamp).fromNow() }}, {{ moment(post.timestamp).format('LL') }}</small>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-light" role="alert">No posts to show.</div>
+        {% endfor %}
+    </div>
+</main>
 {% endblock %}
