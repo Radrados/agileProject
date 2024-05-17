@@ -1,38 +1,42 @@
+{% extends "base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="logo-title-container">
-        <img src="assets/chegg logo.png" alt="Chegg">
-        <span class="logo-title">Chugg</span>
-    </div>
+{% block title %}Login - Chugg{% endblock %}
+{% block body_class %}login-background{% endblock %}
 
-    <div class="login-container">
-        <h2>Login to your account</h2>
-        <form action="/login" method="POST">
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+{% block content %}
+<main class="container">
+    <div class="row flex-column-reverse flex-md-row">
+        <!-- Column for the logo on the left third of the screen for medium and up, bottom on small -->
+        <div class="col-md-4 order-md-1">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Chugg Logo" class="img-fluid">
+        </div>
+
+        <!-- Column for the login form on the right third of the screen for medium and up, top on small -->
+        <div class="col-md-4 offset-md-4 order-md-2">
+            <!-- Bootstrap card containing the form with a custom gradient background -->
+            <div class="card login-card-bg">
+                <div class="card-body">
+                    <!-- Card header with the login title -->
+                    <h1 class="card-title text-center">Login to Chugg</h1>
+
+                    <!-- Form inside the card body -->
+                    <form method="POST" class="w-100">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" id="email" name="email" placeholder="Email" required class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password:</label>
+                            <input type="password" id="password" name="password" placeholder="Password" required class="form-control">
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="form-links">
-                <a href="/forgot-password">Forgot password?</a>
-            </div>
-            <button type="submit" class="btn-login">Sign in</button>
-        </form>
-        <p class="signup-text">
-            Don’t have an account? <a href="/sign-up">Sign up</a>
-        </p>
-        <p class="footer-text">chugg for students. by students.</p>
+        </div>
     </div>
-</body>
-</html>
+</main>
+
+{% endblock %}
