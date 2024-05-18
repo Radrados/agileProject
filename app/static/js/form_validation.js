@@ -12,32 +12,30 @@ function validatePassword() {
 
     // Validate first name and last name are not empty
     if (firstName.trim() === "" || lastName.trim() === "") {
-        showModal("Chugg says: First name and last name cannot be empty.");
+        showModal("First name and last name cannot be empty.");
         return false; // Prevent form submission
     }
 
     // Validate email format
     if (!emailPattern.test(email)) {
-        showModal("Chugg says: Please enter a valid email address.");
+        showModal("Please enter a valid email address.");
         return false; // Prevent form submission
     }
 
     // Validate password complexity
     if (!passwordPattern.test(password)) {
-        showModal("Chugg says: Password must be at least 8 characters long, contain at least one number, one uppercase letter, and one lowercase letter.");
+        showModal("Password must be at least 8 characters long, contain at least one number, one uppercase letter, and one lowercase letter.");
         return false; // Prevent form submission
     }
 
     // Validate password match
     if (password !== confirmPassword) {
-        showModal("Chugg says: Passwords do not match.");
+        showModal("Passwords do not match.");
         return false; // Prevent form submission
     }
 
     return true; // Allow form submission
-}
-
-function showModal(message) {
+}function showModal(message) {
     var modal = document.getElementById("customModal");
     var modalMessage = document.getElementById("modalMessage");
     var span = document.getElementsByClassName("close")[0];
@@ -55,3 +53,6 @@ function showModal(message) {
         }
     };
 }
+
+// Add event listener to the form to use custom validation
+document.querySelector("form").addEventListener("submit", validatePassword);
