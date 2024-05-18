@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, request, flash, request
 from flask_login import current_user, login_user,  logout_user, login_required
 import sqlalchemy as sql_al
 from app import db
-from app.models import User, Post, Comment
+from app.models import User, Post, Comment, Tag
 from urllib.parse import urlsplit
 
 # This file is responsible for the routing between the different flask python files and front end html files
@@ -105,6 +105,7 @@ def create_post():
         title = request.form['title']  # Retrieve data from the HTML form
         body = request.form['body']
         comment_body = request.form.get('comment')
+        tags = request.form.get('tags')
 
         if not title or not body:
             flash('Post must have a title and body.', category='danger')
@@ -113,6 +114,16 @@ def create_post():
         new_post = Post(title=title, body=body, author=current_user)
         db.session.add(new_post)
         db.session.commit()
+
+        if tags:
+            tag_names = [name.strip() for name in tags.split(',')]
+            for name in tag_names:
+                tag = Tag.query.filter_by(name=name).first()
+                if not tag:
+                    tag = Tag(name=name)
+                    db.session.add(tag)
+                new_post.tags.append(tag)
+            db.session.commit()
 
         if comment_body:  # If the comment field is filled, create the comment
             comment = Comment(body=comment_body, post_id=new_post.id, user_id=current_user.id)
@@ -123,6 +134,21 @@ def create_post():
         return redirect(url_for('index'))
     else:  # This block is for handling GET requests
         return render_template('create_post.html')
+
+@app.route('/tag/<string:tag_name>')
+def tag(tag_name):
+    tag = Tag.query.filter_by(name=tag_name).first_or_404()
+    page = request.args.get('page', 1, type=int)
+    #query = tag.posts.order_by(Post.timestamp.desc())
+    query = Post.query.filter(Post.tags.any(id=tag.id)).order_by(Post.timestamp.desc())
+    posts = db.paginate(query, page=page, per_page=app.config['POST_PER_PAGE'], error_out=False)
+    next_url, prev_url, = None, None
+    if posts.has_next:
+        next_url = url_for('tag', tag_name=tag_name, page=posts.next_num)
+    if posts.has_prev:
+        prev_url = url_for('tag', tag_name=tag_name, page=posts.prev_num)
+    return render_template('tag.html', tag=tag, posts=posts.items, next_url=next_url, prev_url=prev_url)
+
 
 @app.route('/post/<int:post_id>', methods=['GET', 'POST'])
 @login_required
