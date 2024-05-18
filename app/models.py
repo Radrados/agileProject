@@ -7,6 +7,10 @@ from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
+tags = db.Table(
+    'tags', 
+    db.Column('post_id', db.Integer, db.ForeignKey('post.id'), primary_key=True), 
+    db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True))
 
 class User(UserMixin, db.Model):
     id: sql_orm.Mapped[int] = sql_orm.mapped_column(primary_key=True)
@@ -40,9 +44,17 @@ class Post(db.Model):
     )
     user_id: sql_orm.Mapped[int] = sql_orm.mapped_column(sql_al.ForeignKey(User.id), index=True)
     author: sql_orm.Mapped[User] = sql_orm.relationship(back_populates='posts')
+    tags = db.relationship('Tag', secondary=tags, lazy='subquery', backref=db.backref('posts', lazy=True)
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)
+
+class Tags(db.Model):
+    id: sql_orm.Mapped[int] = sql_orm.mapped_column(primary_key=True)
+    name: sql_orm.Mapped[str] = sql_orm.mapped_column(sql_al.String(64), unique=True) # might require some changes
+
+    def __repr__(self):
+        return f'<Tag{self.name}>'
 
 #table for comments
 class Comment(db.Model):
