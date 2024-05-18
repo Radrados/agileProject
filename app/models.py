@@ -14,6 +14,11 @@ tags = db.Table(
     db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True),
     extend_existing=True) # fixing the Table 'tags' is already defined for this MetaData instance
 
+comment_upvotes = db.Table('comment_upvotes',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('comment_id', db.Integer, db.ForeignKey('comment.id'), primary_key=True)
+)
+
 class User(UserMixin, db.Model):
     id: sql_orm.Mapped[int] = sql_orm.mapped_column(primary_key=True)
     username: sql_orm.Mapped[str] = sql_orm.mapped_column(sql_al.String(64), index=True, unique=True)
@@ -22,6 +27,9 @@ class User(UserMixin, db.Model):
     email: sql_orm.Mapped[str] = sql_orm.mapped_column(sql_al.String(120), index=True, unique=True)
     password_hash: sql_orm.Mapped[Optional[str]] = sql_orm.mapped_column(sql_al.String(256))
     posts: sql_orm.WriteOnlyMapped['Post'] = sql_orm.relationship(back_populates='author')
+    upvoted_posts = db.relationship('Post', secondary='post_upvotes', back_populates='upvoted_by')
+    upvoted_comments = db.relationship('Comment', secondary=comment_upvotes, back_populates='upvoted_by')
+
 
     # prints object of this class --> debuging 
     def __repr__(self):
@@ -47,11 +55,23 @@ class Post(db.Model):
     user_id: sql_orm.Mapped[int] = sql_orm.mapped_column(sql_al.ForeignKey(User.id), index=True)
     author: sql_orm.Mapped[User] = sql_orm.relationship(back_populates='posts')
     tags = db.relationship('Tag', secondary=tags, lazy='subquery', backref=db.backref('posts', lazy=True))
+
+
     # MAX_PATH limit in windows is 260 characters, 4096 characters in linux, therefore 300 is a good middle
     file_path: sql_orm.Mapped[Optional[str]] = sql_orm.mapped_column(sql_al.String(300)) 
 
+
+    upvotes: sql_orm.Mapped[int] = sql_orm.mapped_column(default=0)
+    upvoted_by = db.relationship('User', secondary='post_upvotes', back_populates='upvoted_posts')
+
     def __repr__(self):
         return '<Post {}>'.format(self.body)
+
+# Association table for many-to-many relationship between posts and users who upvoted them
+post_upvotes = db.Table('post_upvotes',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('post_id', db.Integer, db.ForeignKey('post.id'), primary_key=True)
+)
 
 class Tag(db.Model):
     id: sql_orm.Mapped[int] = sql_orm.mapped_column(primary_key=True)
@@ -60,6 +80,8 @@ class Tag(db.Model):
 
     def __repr__(self):
         return f'<Tag{self.name}>'
+
+
 
 #table for comments
 class Comment(db.Model):
@@ -75,6 +97,8 @@ class Comment(db.Model):
     post: sql_orm.Mapped[Post] = sql_orm.relationship('Post', back_populates='comments')
     parent: sql_orm.Mapped[Optional['Comment']] = sql_orm.relationship('Comment', remote_side=[id], back_populates='children', uselist=False)
     children: sql_orm.Mapped[list['Comment']] = sql_orm.relationship('Comment', back_populates='parent', uselist=True)
+    upvotes: sql_orm.Mapped[int] = sql_orm.mapped_column(default=0)
+    upvoted_by = db.relationship('User', secondary=comment_upvotes, back_populates='upvoted_comments')
 
     def __repr__(self):
         return '<Comment {}>'.format(self.body)
