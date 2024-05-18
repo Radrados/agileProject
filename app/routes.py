@@ -110,7 +110,7 @@ def create_post():
         title = request.form['title']  # Retrieve data from the HTML form
         body = request.form['body']
         file = request.files.get('file')
-        file_path = None
+        file_name = None
         comment_body = request.form.get('comment')
         tags = request.form.get('tags')
 
@@ -118,13 +118,19 @@ def create_post():
             flash('Post must have a title and body.', category='danger')
             return render_template('create_post.html')  # Stay on the same page to show errors
         
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-            os.makedirs(current_app.config['UPLOAD_FOLDER'], exist_ok=True)
-            file.save(file_path)
+        if file:
+            if allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file_name = filename
+                file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+                os.makedirs(current_app.config['UPLOAD_FOLDER'], exist_ok=True)
+                file.save(file_path)
+                flash("File path saved!", category='success')
+            else:
+                flash('File type not allowed. Please upload a file with a valid extension.', category='danger')
+                return render_template('create_post.html')
 
-        new_post = Post(title=title, body=body, author=current_user, file_path=file_path)
+        new_post = Post(title=title, body=body, author=current_user, file_path=file_name)
         db.session.add(new_post)
         db.session.commit()
 
@@ -162,10 +168,10 @@ def tag(tag_name):
         prev_url = url_for('tag', tag_name=tag_name, page=posts.prev_num)
     return render_template('tag.html', tag=tag, posts=posts.items, next_url=next_url, prev_url=prev_url)
 
-
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
+
 
 @app.route('/post/<int:post_id>', methods=['GET', 'POST'])
 @login_required
