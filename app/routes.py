@@ -1,10 +1,15 @@
 from . import app
-from flask import render_template, redirect, url_for, request, flash, request
+from flask import render_template, redirect, url_for, request, flash, current_app, send_from_directory
 from flask_login import current_user, login_user,  logout_user, login_required
 import sqlalchemy as sql_al
 from app import db
 from app.models import User, Post, Comment, Tag
 from urllib.parse import urlsplit
+from werkzeug.utils import secure_filename
+import os
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']
 
 # This file is responsible for the routing between the different flask python files and front end html files
 # This is the route to the home page
@@ -104,14 +109,28 @@ def create_post():
     if request.method == 'POST':
         title = request.form['title']  # Retrieve data from the HTML form
         body = request.form['body']
+        file = request.files.get('file')
+        file_name = None
         comment_body = request.form.get('comment')
         tags = request.form.get('tags')
 
         if not title or not body:
             flash('Post must have a title and body.', category='danger')
             return render_template('create_post.html')  # Stay on the same page to show errors
+        
+        if file:
+            if allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file_name = filename
+                file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+                os.makedirs(current_app.config['UPLOAD_FOLDER'], exist_ok=True)
+                file.save(file_path)
+                flash("File path saved!", category='success')
+            else:
+                flash('File type not allowed. Please upload a file with a valid extension. PNG, JPEG, JPG, PDF', category='danger')
+                return render_template('create_post.html')
 
-        new_post = Post(title=title, body=body, author=current_user)
+        new_post = Post(title=title, body=body, author=current_user, file_path=file_name)
         db.session.add(new_post)
         db.session.commit()
 
@@ -148,6 +167,10 @@ def tag(tag_name):
     if posts.has_prev:
         prev_url = url_for('tag', tag_name=tag_name, page=posts.prev_num)
     return render_template('tag.html', tag=tag, posts=posts.items, next_url=next_url, prev_url=prev_url)
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
 
 
 @app.route('/post/<int:post_id>', methods=['GET', 'POST'])

@@ -22,6 +22,17 @@
             {% if not loop.last %}, {% endif %}
         {% endfor %}
     </p>
+
+    {% if post.file_path %}
+        <div class="post-file">
+            {% set file_ext = post.file_path.split('.')[-1].lower() %}
+            {% if file_ext in ['png', 'jpg', 'jpeg', 'gif'] %}
+                <img src="{{ url_for('uploaded_file', filename=post.file_path) }}" alt="Uploaded Image">
+            {% else %}
+                <a href="{{ url_for('uploaded_file', filename=post.file_path) }}" download>Download File</a>
+            {% endif %}
+        </div>
+    {% endif %}
 </div>
 
 <hr>

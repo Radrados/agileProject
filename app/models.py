@@ -55,6 +55,12 @@ class Post(db.Model):
     user_id: sql_orm.Mapped[int] = sql_orm.mapped_column(sql_al.ForeignKey(User.id), index=True)
     author: sql_orm.Mapped[User] = sql_orm.relationship(back_populates='posts')
     tags = db.relationship('Tag', secondary=tags, lazy='subquery', backref=db.backref('posts', lazy=True))
+
+
+    # MAX_PATH limit in windows is 260 characters, 4096 characters in linux, therefore 300 is a good middle
+    file_path: sql_orm.Mapped[Optional[str]] = sql_orm.mapped_column(sql_al.String(300)) 
+
+
     upvotes: sql_orm.Mapped[int] = sql_orm.mapped_column(default=0)
     upvoted_by = db.relationship('User', secondary='post_upvotes', back_populates='upvoted_posts')
 
