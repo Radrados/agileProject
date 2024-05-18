@@ -42,11 +42,11 @@ def login():
 
         user = db.session.scalar(sql_al.select(User).where(User.email == email))
         if user is None or not user.check_password(password):
-            flash('Invalid username or password')
+            flash('Invalid username or password', category='danger')
             return redirect(url_for('login'))
         
         login_user(user, remember=True)
-        flash('DEBUGGING: USER LOGIN SUCCESSFULLY')
+        flash('You have successfully logged in', category='success')
         next_page = request.args.get('next')
         if not next_page or urlsplit(next_page).netloc != '':
             next_page = url_for('index')
@@ -68,17 +68,20 @@ def register():
         password = request.form.get('password')
         confirmed_password = request.form.get('confirm-password')
 
-        user = User.query.filter_by(email=email).first()
-        if user:
-            flash('Email already exists.', category='error')
+        email_exist = User.query.filter_by(email=email).first()
+        user_exist = User.query.filter_by(username=username).first()
+        if email_exist:
+            flash('Email already exists.', category='danger')
+        elif user_exist:
+            flash('Username already exists.', category='danger')
         elif len(email) < 4:
-            flash('Email must be greater than 3 characters.', category='error')
+            flash('Email must be greater than 3 characters.', category='danger')
         elif len(first_name) < 2:
-            flash('First Name must be greater than 1 character.', category='error')
+            flash('First Name must be greater than 1 character.', category='danger')
         elif password != confirmed_password:
-            flash('Passwords don\'t match.', category='error')
-        elif len(password) < 7:
-            flash('Password is too shor, must be at least 7 character.', category='error')
+            flash('Passwords don\'t match.', category='danger')
+        elif len(password) < 8:
+            flash('Password is too short, must be at least 8 character.', category='danger')
         else: # everything is correct
             user = User(username=username, first_name=first_name, last_name=last_name, email=email)
             user.set_password(password)
@@ -104,7 +107,7 @@ def create_post():
         comment_body = request.form.get('comment')
 
         if not title or not body:
-            flash('Post must have a title and body.', 'error')
+            flash('Post must have a title and body.', category='danger')
             return render_template('create_post.html')  # Stay on the same page to show errors
 
         new_post = Post(title=title, body=body, author=current_user)
@@ -116,7 +119,7 @@ def create_post():
             db.session.add(comment)
             db.session.commit()
 
-        flash('Your post has been created!', 'success')
+        flash('Your post has been created!', category='success')
         return redirect(url_for('index'))
     else:  # This block is for handling GET requests
         return render_template('create_post.html')
@@ -159,14 +162,14 @@ def user(username):
 def search(): 
     search_post = request.form.get('search-post')
     if not search_post:
-        flash('You must enter textphrase to search for in title', category='error')
+        flash('You must enter textphrase to search for in title', category='danger')
         return redirect(url_for('index'))
     
     # If the user searchs for i.e. 'Introductory Chugg' but there is only 'Introductory to Chugg', we will not get the result
     # Split the search_post string into an array of tags and query for each tag
     search_tags = search_post.split(' ')
     if not search_tags:
-        flash("No valid tags found", category='error')
+        flash("No valid tags found", category='danger')
         return redirect(url_for('index'))
     
     conditions = [] # creating a list of search conditions
