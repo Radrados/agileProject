@@ -15,7 +15,7 @@
                     <h3 class="card-title"><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h3>
                     <p class="card-text">{{ post.body }}</p>
                     <!-- Display timestamp with moment.js -->
-                    <small>Posted by {{ post.author.username }} <br> On {{ moment(post.timestamp).fromNow() }}, {{ moment(post.timestamp).format('LL') }}</small>
+                    <small class="text-muted">Posted on {{ moment(post.timestamp).fromNow() }}, {{ moment(post.timestamp).format('LL') }}</small>
                 </div>
             </div>
         {% else %}
