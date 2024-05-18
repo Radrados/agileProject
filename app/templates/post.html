@@ -7,6 +7,7 @@
     <small>Posted by {{ post.author.username }} on {{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
 
     <!-- Display tags associated with the post -->
+    <!-- fix display of tags here   -->
     <p>Tags:
         {% for tag in post.tags %}
             <a href="{{ url_for('tag', tag_name=tag.name) }}">{{ tag.name }}</a>
