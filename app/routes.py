@@ -76,7 +76,7 @@ def register():
             flash('Username already exists.', category='danger')
         elif len(email) < 4:
             flash('Email must be greater than 3 characters.', category='danger')
-        elif len(first_name) < 2:
+        elif len(first_name) < 1:
             flash('First Name must be greater than 1 character.', category='danger')
         elif password != confirmed_password:
             flash('Passwords don\'t match.', category='danger')

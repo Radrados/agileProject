@@ -1,13 +1,81 @@
+/* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.6); /* Darker black with more opacity */
+}
+
+.modal-content {
+    background-color: #fff; /* White background for the modal content */
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+    width: 50%; /* Adjusted width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    text-align: center;
+    color: #333; /* Darker text color */
+    position: relative; /* To position the close button inside */
+}
+
+.close {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.modal-body {
+    font-size: 18px;
+    margin: 20px 0; /* Added margin for better spacing */
+}
+
+.modal-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.modal-footer button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-footer button:hover {
+    background-color: #0056b3;
+}
+
+/* Other existing CSS */
 .login-card-bg {
     border: 10px solid #ccc;  /* Adding a thin border */
     background-color: #f5f5dc;    /* Light beige  */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     transition: box-shadow 0.3s ease-in-out; /* Smooth transition for hover effect */
-
-    );
-    border: none;     /* Optional: remove border if needed */
-    border: none;     /* Optional: remove border if needed */
 }
+
 body.login-background {
     background: linear-gradient(to bottom,
         #f5f5dc 50%,  /* Beige color for the top half */
@@ -16,6 +84,7 @@ body.login-background {
         #ffbc42 51%   /* Orange color for the bottom half */
     );
 }
+
 /* Ensure the navbar background is fully colored */
 .navbar {
     background-color: #ffbc42 !important; /* Soft orange, with !important to override Bootstrap styles */
@@ -32,10 +101,8 @@ body.login-background {
     color: #fff; /* White text on hover for better visibility */
 }
 
-
 body {
-        background-color: #f5f5dc; /* Light beige */
-
+    background-color: #f5f5dc; /* Light beige */
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -72,5 +139,5 @@ footer {
     background-color: #007BFF;
     color: white;
     text-align: center;
-    padding: 10
+    padding: 10px;
 }
