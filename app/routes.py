@@ -135,7 +135,7 @@ def create_post():
         db.session.commit()
 
         if tags:
-            tag_names = [name.strip() for name in tags.split(',')]
+            tag_names = [name.strip() for name in tags.split(' ')] # how tags are split when creating a post
             for name in tag_names:
                 tag = Tag.query.filter_by(name=name).first()
                 if not tag:
