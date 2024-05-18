@@ -12,6 +12,6 @@ class Config:
         'sqlite:///' + os.path.join(basedir, 'app.db')
     POST_PER_PAGE = 3
     # File upload settings
-    UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads')
+    UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app/uploads')
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf'}
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # Max upload size: 16MB
