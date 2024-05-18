@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 import os
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.',1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']
 
 # This file is responsible for the routing between the different flask python files and front end html files
 # This is the route to the home page
