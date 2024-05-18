@@ -14,19 +14,6 @@
         {% endfor %}
     </p>
 
-    <!-- Display the uploaded file if it exists
-    {% if post.file_path %}
-        <div class="post-file">
-            {% set file_ext = post.file_path.split('.')[-1].lower() %}
-            <p>Debug: file_path = {{ post.file_path }}</p>  Debugging info
-            {% if file_ext in ['png', 'jpg', 'jpeg', 'gif'] %}
-                <img src="{{ url_for('uploaded_file', filename=post.file_path.split('/')[-1]) }}" alt="Uploaded Image">
-            {% else %}
-                <a href="{{ url_for('uploaded_file', filename=post.file_path.split('/')[-1]) }}" download>Download File</a>
-            {% endif %}
-        </div>
-    {% endif %} -->
-    <!-- Display the uploaded file if it exists -->
     {% if post.file_path %}
         <div class="post-file">
             {% set file_ext = post.file_path.split('.')[-1].lower() %}
