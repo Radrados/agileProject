@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Register - Chugg{% endblock %}
-{% block body_class %}login-background{% endblock %}  <!-- Use the same background styling -->
+{% block body_class %}login-background{% endblock %}
 
 {% block content %}
 <main class="container">
@@ -19,7 +19,7 @@
                     <h1 class="card-title text-center">Register to Chugg</h1>
 
                     <!-- Form inside the card body -->
-                    <form method="POST" class="w-100">
+                    <form method="POST" class="w-100" onsubmit="return validatePassword()" novalidate>
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             <input type="text" id="username" name="username" placeholder="Username" required class="form-control">
@@ -52,5 +52,20 @@
             </div>
         </div>
     </div>
-</main>
+</main><!-- Custom Modal -->
+<div id="customModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-header">Chugg says:</div>
+        <div class="modal-body">
+            <p id="modalMessage"></p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="document.getElementById('customModal').style.display='none'">Close</button>
+        </div>
+    </div>
+</div>
+
+
+<script src="{{ url_for('static', filename='js/form_validation.js') }}"></script>
 {% endblock %}

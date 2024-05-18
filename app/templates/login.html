@@ -20,7 +20,7 @@
                     <h1 class="card-title text-center">Login to Chugg</h1>
 
                     <!-- Form inside the card body -->
-                    <form method="POST" class="w-100">
+                    <form method="POST" class="w-100" id="loginForm" novalidate>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email:</label>
                             <input type="email" id="email" name="email" placeholder="Email" required class="form-control">
@@ -39,4 +39,17 @@
     </div>
 </main>
 
+<!-- Custom Modal -->
+<div id="customModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="modalMessage"></p>
+    </div>
+</div>
+
+<!-- Include the CSS file -->
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+<!-- Include the JavaScript file -->
+<script src="{{ url_for('static', filename='js/form_validation.js') }}"></script>
 {% endblock %}
