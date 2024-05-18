@@ -127,7 +127,7 @@ def create_post():
                 file.save(file_path)
                 flash("File path saved!", category='success')
             else:
-                flash('File type not allowed. Please upload a file with a valid extension.', category='danger')
+                flash('File type not allowed. Please upload a file with a valid extension. PNG, JPEG, JPG, PDF', category='danger')
                 return render_template('create_post.html')
 
         new_post = Post(title=title, body=body, author=current_user, file_path=file_name)
