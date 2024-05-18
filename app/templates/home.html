@@ -2,31 +2,12 @@
 {% block title %}Home - Chugg {% endblock %}
 
 {% block content %}
-<main class="container">
-    <!-- Greeting and form for logged-in users to create posts -->
-    {% if current_user.is_authenticated %}
-        <div class="py-4">
-            <h1 class="display-4">Hi, {{ current_user.username }}!</h1>
-            <h2 class="fs-5">Welcome back to Chugg!</h2>
-        </div>
 
-        <!-- Form for submitting new posts, styled with Bootstrap for consistency -->
-        <form method="post" action="{{ url_for('create_post') }}" class="mb-4">
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" id="title" name="title" required class="form-control">
-            </div>
-            <div class="mb-3">
-                <label for="body" class="form-label">Body</label>
-                <textarea id="body" name="body" rows="4" required class="form-control"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Post</button>
-        </form>
-    {% endif %}
 
     <!-- Section for displaying all posts -->
     <div>
         <h1 class="mb-3">Recent Posts</h1>
+        <!-- Loop through all posts and display each one with a link to its detailed view -->
         <!-- Loop through all posts and display each one with a link to its detailed view -->
         {% for post in posts %}
             <div class="card mb-3">
@@ -40,6 +21,7 @@
         {% else %}
             <div class="alert alert-light" role="alert">No posts to show.</div>
         {% endfor %}
+
     </div>
 </main>
 {% endblock %}

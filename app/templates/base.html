@@ -15,42 +15,50 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
-<body class="{% block body_class %}{% endblock %}"> <!-- Allows dynamic setting of body class for different pages -->
+<body class="{% block body_class %}{% endblock %}">
     <!-- Navigation bar setup -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <!-- Navbar brand link with image and text -->
-        <a class="navbar-brand" href="{{ url_for('index') }}">
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" style="height: 30px; width: auto; margin-right: 10px;">
-            Chugg
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" id="home" href="{{ url_for('index') }}">Home</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                {% if current_user.is_anonymous %}
-                <li class="nav-item">
-                    <a class="nav-link" id="landing" href="{{ url_for('landing') }}">Landing</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="login" href="{{ url_for('login') }}">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="register" href="{{ url_for('register') }}">Register</a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" id="logout" href="{{ url_for('logout') }}">Logout</a>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
+    <!-- Navbar brand link with image and text -->
+    <a class="navbar-brand" href="{{ url_for('index') }}">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Chugg Logo" style="height: 30px; width: auto; margin-right: 10px;">
+        Chugg
+    </a>
+    <!-- Navbar toggler button for mobile responsiveness -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Navbar links, collapsible on smaller screens -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <!-- Conditional display based on user authentication status -->
+            {% if current_user.is_authenticated %}
+            <!-- Link to create a new post, visible only to logged-in users -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('create_post') }}">Create Post</a>
+            </li>
+            <!-- Logout link -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+            </li>
+            {% else %}
+            <!-- Login link, shown only to guests -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+            </li>
+            <!-- Registration link, also for guests -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
 
     <!-- Horizontal rule to separate navbar from content -->
     <hr>

@@ -95,28 +95,31 @@ def logout():
     return render_template('landing.html')
 
 #add posts and comments to the database
-@app.route('/create_post', methods=['POST']) # the route accessing which creates a post
-@login_required  
-def create_post(): #post creation
-    title = request.form['title'] #retrieve data from the html form
-    body = request.form['body']
-    comment_body = request.form.get('comment')
+@app.route('/create_post', methods=['GET', 'POST'])  # Allow both GET and POST methods
+@login_required
+def create_post():
+    if request.method == 'POST':
+        title = request.form['title']  # Retrieve data from the HTML form
+        body = request.form['body']
+        comment_body = request.form.get('comment')
 
-    if not title or not body:
-        flash('Post must have a title and body.')
-        #the flashes don't show up anywhere rn, but they're useful to have
+        if not title or not body:
+            flash('Post must have a title and body.', 'error')
+            return render_template('create_post.html')  # Stay on the same page to show errors
+
+        new_post = Post(title=title, body=body, author=current_user)
+        db.session.add(new_post)
+        db.session.commit()
+
+        if comment_body:  # If the comment field is filled, create the comment
+            comment = Comment(body=comment_body, post_id=new_post.id, user_id=current_user.id)
+            db.session.add(comment)
+            db.session.commit()
+
+        flash('Your post has been created!', 'success')
         return redirect(url_for('index'))
-
-    new_post = Post(title=title, body=body, author=current_user)
-    db.session.add(new_post)
-    db.session.commit()
-
-    if comment_body: # if the comment field is filled in makes the comment
-        comment = Comment(body=comment_body, post_id=new_post.id, user_id=current_user.id)
-        db.session.add(comment)
-    db.session.commit()
-    flash('Your post has been created!')
-    return redirect(url_for('index'))
+    else:  # This block is for handling GET requests
+        return render_template('create_post.html')
 
 @app.route('/post/<int:post_id>', methods=['GET', 'POST'])
 @login_required
