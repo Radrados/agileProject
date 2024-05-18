@@ -54,5 +54,58 @@ function validatePassword() {
     };
 }
 
+
+
 // Add event listener to the form to use custom validation
 document.querySelector("form").addEventListener("submit", validatePassword);
+
+
+function validateLogin(event) {
+    // Prevent the default form submission
+    event.preventDefault();
+
+    // Get form values
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+
+    // Regular expressions for validations
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+
+    // Validate email format
+    if (!emailPattern.test(email)) {
+        showModal("Please enter a valid email address.");
+        return false;
+    }
+
+    // Validate password complexity
+    if (!passwordPattern.test(password)) {
+        showModal("Password must be at least 8 characters long, contain at least one number, one uppercase letter, and one lowercase letter.");
+        return false;
+    }
+
+    // Submit the form if all validations pass
+    document.getElementById("loginForm").submit();
+}
+
+function showModal(message) {
+    var modal = document.getElementById("customModal");
+    var modalMessage = document.getElementById("modalMessage");
+    var span = document.getElementsByClassName("close")[0];
+
+    modalMessage.textContent = message;
+    modal.style.display = "block"; // Show the modal
+
+    span.onclick = function() {
+        modal.style.display = "none"; // Hide the modal when the close button is clicked
+    };
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none"; // Hide the modal when clicking outside of it
+        }
+    };
+}
+
+// Add event listener to the login form to use custom validation
+document.getElementById("loginForm").addEventListener("submit", validateLogin);
