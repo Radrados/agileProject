@@ -233,3 +233,30 @@ def unupvote(post_id):
     else:
         flash('You have not upvoted this post.', category='danger')
     return redirect(url_for('post', post_id=post_id))
+
+
+@app.route('/comment/upvote/<int:comment_id>', methods=['POST'])
+@login_required
+def upvote_comment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+    if current_user not in comment.upvoted_by:
+        comment.upvoted_by.append(current_user)
+        comment.upvotes += 1
+        db.session.commit()
+        flash('Comment upvoted!', category='success')
+    else:
+        flash('You have already upvoted this comment.', category='danger')
+    return redirect(url_for('post', post_id=comment.post_id))
+
+@app.route('/comment/unupvote/<int:comment_id>', methods=['POST'])
+@login_required
+def unupvote_comment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+    if current_user in comment.upvoted_by:
+        comment.upvoted_by.remove(current_user)
+        comment.upvotes -= 1
+        db.session.commit()
+        flash('Comment un-upvoted.', category='success')
+    else:
+        flash('You have not upvoted this comment.', category='danger')
+    return redirect(url_for('post', post_id=comment.post_id))
