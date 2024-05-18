@@ -33,6 +33,13 @@
             <div class="comment">
                 <p>{{ comment.body }}</p>
                 <small>Commented by {{ comment.author.username }} on {{ comment.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                <p>{{ comment.upvotes }} upvotes</p>
+                <form action="{{ url_for('upvote_comment', comment_id=comment.id) }}" method="post" style="display: inline;">
+                    <button type="submit">Upvote</button>
+                </form>
+                <form action="{{ url_for('unupvote_comment', comment_id=comment.id) }}" method="post" style="display: inline;">
+                    <button type="submit">Un-upvote</button>
+                </form>
 
                 <form action="{{ url_for('post', post_id=post.id) }}" method="post">
                     <input type="hidden" name="parent_id" value="{{ comment.id }}">
