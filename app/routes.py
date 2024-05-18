@@ -124,16 +124,19 @@ def create_post():
 @app.route('/post/<int:post_id>', methods=['GET', 'POST'])
 @login_required
 def post(post_id):
-    post = Post.query.get_or_404(post_id)
-    comments = Comment.query.filter_by(post_id=post_id).order_by(Comment.timestamp.desc()).all()
-    if request.method == 'POST':
+    post = Post.query.get_or_404(post_id) #get the post, 404 if can't be found
+    comments = Comment.query.filter_by(post_id=post_id, parent_id=None).order_by(Comment.timestamp.asc()).all() #all orphan comments
+    
+    if request.method == 'POST': #
         comment_body = request.form.get('comment')
+        parent_id = request.form.get('parent_id', type=int)  # Optional parent comment id
         if comment_body:
-            comment = Comment(body=comment_body, post_id=post_id, user_id=current_user.id)
+            comment = Comment(body=comment_body, post_id=post_id, user_id=current_user.id, parent_id=parent_id)
             db.session.add(comment)
             db.session.commit()
-            flash('Your comment has been added.', category='success')
+            flash('Comment added', category='success')
             return redirect(url_for('post', post_id=post_id))
+    
     return render_template('post.html', post=post, comments=comments)
 
 
