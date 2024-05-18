@@ -47,15 +47,23 @@ class Post(db.Model):
 #table for comments
 class Comment(db.Model):
     id: sql_orm.Mapped[int] = sql_orm.mapped_column(primary_key=True)
-    body: sql_orm.Mapped[str] = sql_orm.mapped_column(sql_al.String(1000)) #we'll have to decide how long the comments need to be
-    timestamp: sql_orm.Mapped[datetime] = sql_orm.mapped_column(index=True, default=lambda: datetime.now(timezone.utc))
-    post_id: sql_orm.Mapped[int] = sql_orm.mapped_column(sql_al.ForeignKey('post.id'), index=True)
+    body: sql_orm.Mapped[str] = sql_orm.mapped_column(sql_al.String(1000))
+    timestamp: sql_orm.Mapped[datetime] = sql_orm.mapped_column(
+        index=True, default=lambda: datetime.now(timezone.utc)
+    )
     user_id: sql_orm.Mapped[int] = sql_orm.mapped_column(sql_al.ForeignKey('user.id'), index=True)
+    post_id: sql_orm.Mapped[int] = sql_orm.mapped_column(sql_al.ForeignKey('post.id'), index=True)
+    parent_id: sql_orm.Mapped[Optional[int]] = sql_orm.mapped_column(sql_al.ForeignKey('comment.id'))
     author: sql_orm.Mapped[User] = sql_orm.relationship('User', back_populates='comments')
     post: sql_orm.Mapped[Post] = sql_orm.relationship('Post', back_populates='comments')
+    parent: sql_orm.Mapped[Optional['Comment']] = sql_orm.relationship('Comment', remote_side=[id], back_populates='children', uselist=False)
+    children: sql_orm.Mapped[list['Comment']] = sql_orm.relationship('Comment', back_populates='parent', uselist=True)
 
     def __repr__(self):
         return '<Comment {}>'.format(self.body)
+
+User.comments = sql_orm.relationship('Comment', back_populates='author', foreign_keys=[Comment.user_id])
+Post.comments = sql_orm.relationship('Comment', back_populates='post', foreign_keys=[Comment.post_id], order_by='Comment.timestamp')
 
 #establishing relationships for the user, post and comment tables
     #stuff like user owns thier posts and comments 

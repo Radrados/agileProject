@@ -1,33 +1,50 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="post">
-        <h1>{{ post.title }}</h1>
-        <p>{{ post.body }}</p>
-        <small>Posted by {{ post.author.username }} on {{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
-    </div>
+<div class="post">
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.body }}</p>
+    <small>Posted by {{ post.author.username }} on {{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+</div>
 
-    <hr>
+<hr>
 
-    <div class="comments">
-        <h2>Comments</h2>
+<div class="comments">
+    <h2>Comments</h2>
+    {% macro render_comments(comments) %}
         {% for comment in comments %}
             <div class="comment">
                 <p>{{ comment.body }}</p>
                 <small>Commented by {{ comment.author.username }} on {{ comment.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+
+                <form action="{{ url_for('post', post_id=post.id) }}" method="post">
+                    <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                    <textarea name="comment" placeholder="Reply" rows="2"></textarea>
+                    <button type="submit">Reply</button>
+                </form>
+                {% if comment.children and comment.children|length %}
+                    <div class="nested-comments">
+                        {{ render_comments(comment.children) }}
+                    </div>
+                {% endif %}
             </div>
-        {% else %}
-            <p>No comments yet.</p>
         {% endfor %}
-    </div>
+    {% endmacro %}
+    
+    {% if comments %}
+        {{ render_comments(comments) }}
+    {% else %}
+        <p>No comments yet.</p>
+    {% endif %}
+</div>
 
-    <hr>
+<hr>
 
-    <div class="comment-form">
-        <h2>Leave a comment</h2>
-        <form action="{{ url_for('post', post_id=post.id) }}" method="post">
-            <textarea name="comment" required="required" placeholder="Write your comment here..." rows="4"></textarea><br>
-            <button type="submit">Submit</button>
-        </form>
-    </div>
+<div class="comment-form">
+    <h2>Leave a comment</h2>
+    <form action="{{ url_for('post', post_id=post.id) }}" method="post">
+        <textarea name="comment" required="required" placeholder="Write your comment here..." rows="4"></textarea><br>
+        <button type="submit">Submit</button>
+    </form>
+</div>
 {% endblock %}
