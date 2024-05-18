@@ -8,7 +8,7 @@
     </div>
 
     <!-- Form for submitting new posts -->
-    <form method="post" action="{{ url_for('create_post') }}" class="mb-4">
+    <form method="post" action="{{ url_for('create_post') }}" class="mb-4" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="title">Title</label>
             <input type="text" id="title" name="title" required>
@@ -20,6 +20,10 @@
         <div class="mb-3">
             <label for="tags">Tags (comma-separated)</label>
             <input type="text" id="tags" name="tags">
+        </div>
+        <div class="mb-3">
+            <label for="file">Upload File</label>
+            <input type="file" name="file" id="file">
         </div>
         <div class="mb-3">
             <label for="comment">Optional Comment</label>
