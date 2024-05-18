@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Create Post - Chugg{% endblock %}
+
+{% block content %}
+<main class="container">
+    <div class="py-4">
+        <h1 class="display-4">Create a New Post</h1>
+    </div>
+
+    <!-- Form for submitting new posts, styled with Bootstrap for consistency -->
+    <form method="post" action="{{ url_for('create_post') }}" class="mb-4">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" id="title" name="title" required class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="body" class="form-label">Body</label>
+            <textarea id="body" name="body" rows="4" required class="form-control"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="comment" class="form-label">Optional Comment</label>
+            <textarea id="comment" name="comment" rows="2" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Post</button>
+    </form>
+</main>
+{% endblock %}

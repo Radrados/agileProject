@@ -1,53 +1,34 @@
 {% extends "base.html" %}
 {% block title %}Home - Chugg {% endblock %}
-<!-- app/templates/home.html
-        This is the home page for Chugg.
-        It shows all posts, however to create posts and see its content, must be logged in. 
--->
 
 {% block content %}
-        <!-- Only logged in users can create posts -->
-        {% if current_user.is_authenticated %}
-                <h1>Hi, {{ current_user.username }}!</h1>
-                <h2>Welcome back to Chugg!</h2>
 
-                <form method="post" action="{{ url_for('create_post') }}">
-                        <div>
-                                <label for="title">Title</label>
-                                <input type="text" id="title" name="title" required>
-                        </div>
-                        <div>
-                                <label for="body">Body</label>
-                                <textarea id="body" name="body" rows="3" required></textarea>
 
-                        </div>
-                        <div>
-                                <label for="comment">Comment</label>
-                                <textarea id="comment" name="comment" rows="2" required></textarea>
-                        </div>
-                        <button type="submit">Post</button>
-                </form>
-        {% endif %}
-
-        <!-- All visitors can see all posts, however must be logged in to view inside posts-->
-        <div>
-                <h1>Posts</h1>
-                {% for post in posts %}
-                <div>
-                    <h2><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h2>
-                    <p>{{ post.body }}</p>
-                    <small>Posted by {{ post.author.username }} <br> On {{ moment(post.timestamp).fromNow() }}, {{ moment(post.timestamp).format('LL') }}</small>
+    <!-- Section for displaying all posts -->
+    <div>
+        <h1 class="mb-3">Recent Posts</h1>
+        <!-- Loop through all posts and display each one with a link to its detailed view -->
+        <!-- Loop through all posts and display each one with a link to its detailed view -->
+        {% for post in posts %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h3 class="card-title"><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h3>
+                    <p class="card-text">{{ post.body }}</p>
+                    <!-- Display timestamp with moment.js -->
+                    <small class="text-muted">Posted on {{ moment(post.timestamp).fromNow() }}, {{ moment(post.timestamp).format('LL') }}</small>
                 </div>
-                {% else %}
-                <p>No posts to show.</p>
-                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-light" role="alert">No posts to show.</div>
+        {% endfor %}
+
                 {% if prev_url %}
                 <a href="{{ prev_url }}">Newer posts</a>
                 {% endif %}
                 {% if next_url %}
                 <a href="{{ next_url }}">Older posts</a>
                 {% endif %}
-        </div>
 
-
+    </div>
+</main>
 {% endblock %}
