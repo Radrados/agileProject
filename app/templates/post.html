@@ -1,85 +1,93 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="post">
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.body }}</p>
-    <small>Posted by {{ post.author.username }} on {{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+<div class="container mt-5">
+    <div class="post card mb-4 shadow-sm">
+        <div class="card-body">
+            <h1 class="card-title">{{ post.title }}</h1>
+            <p class="card-text">{{ post.body }}</p>
+            <small class="text-muted">Posted by {{ post.author.username }} on {{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
 
-    <!-- Display upvote count and buttons -->
-    <p>{{ post.upvotes }} upvotes</p>
-    <form action="{{ url_for('upvote', post_id=post.id) }}" method="post" style="display: inline;">
-        <button type="submit">Upvote</button>
-    </form>
-    <form action="{{ url_for('unupvote', post_id=post.id) }}" method="post" style="display: inline;">
-        <button type="submit">Un-upvote</button>
-    </form>
+            <!-- Display upvote count and buttons -->
+            <p>{{ post.upvotes }} upvotes</p>
+            <form action="{{ url_for('upvote', post_id=post.id) }}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-success btn-sm">Upvote</button>
+            </form>
+            <form action="{{ url_for('unupvote', post_id=post.id) }}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-danger btn-sm">Un-upvote</button>
+            </form>
 
-    <!-- Display tags associated with the post -->
-    <p>Tags:
-        {% for tag in post.tags %}
-            <a href="{{ url_for('tag', tag_name=tag.name) }}">{{ tag.name }}</a>
-            {% if not loop.last %}, {% endif %}
-        {% endfor %}
-    </p>
+            <!-- Display tags associated with the post -->
+            <p>Tags:
+                {% for tag in post.tags %}
+                    <a href="{{ url_for('tag', tag_name=tag.name) }}" class="badge badge-primary">{{ tag.name }}</a>
+                    {% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </p>
 
-    {% if post.file_path %}
-        <div class="post-file">
-            {% set file_ext = post.file_path.split('.')[-1].lower() %}
-            {% if file_ext in ['png', 'jpg', 'jpeg', 'gif'] %}
-                <img src="{{ url_for('uploaded_file', filename=post.file_path) }}" alt="Uploaded Image">
-            {% else %}
-                <a href="{{ url_for('uploaded_file', filename=post.file_path) }}" download>Download File</a>
+            {% if post.file_path %}
+                <div class="post-file mt-3">
+                    {% set file_ext = post.file_path.split('.')[-1].lower() %}
+                    {% if file_ext in ['png', 'jpg', 'jpeg', 'gif'] %}
+                        <img src="{{ url_for('uploaded_file', filename=post.file_path) }}" alt="Uploaded Image" class="img-fluid">
+                    {% elif file_ext == 'pdf' %}
+                        <embed src="{{ url_for('uploaded_file', filename=post.file_path) }}" type="application/pdf" width="100%" height="600px">
+                    {% else %}
+                        <a href="{{ url_for('uploaded_file', filename=post.file_path) }}" class="btn btn-info" download>Download File</a>
+                    {% endif %}
+                </div>
             {% endif %}
         </div>
-    {% endif %}
-</div>
+    </div>
 
-<hr>
+    <hr>
 
-<div class="comments">
-    <h2>Comments</h2>
-    {% macro render_comments(comments) %}
-        {% for comment in comments %}
-            <div class="comment">
-                <p>{{ comment.body }}</p>
-                <small>Commented by {{ comment.author.username }} on {{ comment.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
-                <p>{{ comment.upvotes }} upvotes</p>
-                <form action="{{ url_for('upvote_comment', comment_id=comment.id) }}" method="post" style="display: inline;">
-                    <button type="submit">Upvote</button>
-                </form>
-                <form action="{{ url_for('unupvote_comment', comment_id=comment.id) }}" method="post" style="display: inline;">
-                    <button type="submit">Un-upvote</button>
-                </form>
+    <div class="comments">
+        <h2>Comments</h2>
+        {% macro render_comments(comments) %}
+            {% for comment in comments %}
+                <div class="comment card mb-3 shadow-sm">
+                    <div class="card-body">
+                        <p>{{ comment.body }}</p>
+                        <small class="text-muted">Commented by {{ comment.author.username }} on {{ comment.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                        <p>{{ comment.upvotes }} upvotes</p>
+                        <form action="{{ url_for('upvote_comment', comment_id=comment.id) }}" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-success btn-sm">Upvote</button>
+                        </form>
+                        <form action="{{ url_for('unupvote_comment', comment_id=comment.id) }}" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">Un-upvote</button>
+                        </form>
 
-                <form action="{{ url_for('post', post_id=post.id) }}" method="post">
-                    <input type="hidden" name="parent_id" value="{{ comment.id }}">
-                    <textarea name="comment" placeholder="Reply" rows="2"></textarea>
-                    <button type="submit">Reply</button>
-                </form>
-                {% if comment.children and comment.children|length %}
-                    <div class="nested-comments">
-                        {{ render_comments(comment.children) }}
+                        <form action="{{ url_for('post', post_id=post.id) }}" method="post" class="mt-2">
+                            <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                            <textarea name="comment" class="form-control" placeholder="Reply" rows="2"></textarea>
+                            <button type="submit" class="btn btn-primary btn-sm mt-2">Reply</button>
+                        </form>
+                        {% if comment.children and comment.children|length %}
+                            <div class="nested-comments mt-3 ml-4">
+                                {{ render_comments(comment.children) }}
+                            </div>
+                        {% endif %}
                     </div>
-                {% endif %}
-            </div>
-        {% endfor %}
-    {% endmacro %}
-    
-    {% if comments %}
-        {{ render_comments(comments) }}
-    {% else %}
-        <p>No comments yet.</p>
-    {% endif %}
-</div>
+                </div>
+            {% endfor %}
+        {% endmacro %}
 
-<hr>
+        {% if comments %}
+            {{ render_comments(comments) }}
+        {% else %}
+            <p>No comments yet.</p>
+        {% endif %}
+    </div>
 
-<div class="comment-form">
-    <h2>Leave a comment</h2>
-    <form action="{{ url_for('post', post_id=post.id) }}" method="post">
-        <textarea name="comment" required="required" placeholder="Write your comment here..." rows="4"></textarea><br>
-        <button type="submit">Submit</button>
-    </form>
+    <hr>
+
+    <div class="comment-form mt-4">
+        <h2>Leave a comment</h2>
+        <form action="{{ url_for('post', post_id=post.id) }}" method="post">
+            <textarea name="comment" required="required" placeholder="Write your comment here..." rows="4" class="form-control mb-2"></textarea>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
 </div>
 {% endblock %}
