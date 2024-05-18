@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Register - Chugg{% endblock %}
-{% block body_class %}login-background{% endblock %}  <!-- Use the same background styling -->
+{% block body_class %}login-background{% endblock %}
 
 {% block content %}
 <main class="container">
@@ -52,9 +52,15 @@
             </div>
         </div>
     </div>
-    <script src="{{ url_for('static', filename='js/form_validation.js') }}"></script>
-
 </main>
 
+<!-- Custom Modal -->
+<div id="customModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Chugg says: Passwords do not match.</p>
+    </div>
+</div>
 
+<script src="{{ url_for('static', filename='js/form_validation.js') }}"></script>
 {% endblock %}
