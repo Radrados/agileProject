@@ -206,3 +206,30 @@ def search():
     query = sql_al.or_(*conditions) # create the query that will accept the tags either in the title or the body
     search_results = Post.query.filter(query).order_by(Post.timestamp.desc()).all()      
     return render_template('home.html', posts=search_results)
+
+
+@app.route('/upvote/<int:post_id>', methods=['POST'])
+@login_required
+def upvote(post_id):
+    post = Post.query.get_or_404(post_id)
+    if current_user not in post.upvoted_by:
+        post.upvoted_by.append(current_user)
+        post.upvotes += 1
+        db.session.commit()
+        flash('Post upvoted!', category='success')
+    else:
+        flash('You have already upvoted this post.', category='danger')
+    return redirect(url_for('post', post_id=post_id))
+
+@app.route('/unupvote/<int:post_id>', methods=['POST'])
+@login_required
+def unupvote(post_id):
+    post = Post.query.get_or_404(post_id)
+    if current_user in post.upvoted_by:
+        post.upvoted_by.remove(current_user)
+        post.upvotes -= 1
+        db.session.commit()
+        flash('Post un-upvoted.', category='success')
+    else:
+        flash('You have not upvoted this post.', category='danger')
+    return redirect(url_for('post', post_id=post_id))

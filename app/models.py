@@ -22,6 +22,8 @@ class User(UserMixin, db.Model):
     email: sql_orm.Mapped[str] = sql_orm.mapped_column(sql_al.String(120), index=True, unique=True)
     password_hash: sql_orm.Mapped[Optional[str]] = sql_orm.mapped_column(sql_al.String(256))
     posts: sql_orm.WriteOnlyMapped['Post'] = sql_orm.relationship(back_populates='author')
+    upvoted_posts = db.relationship('Post', secondary='post_upvotes', back_populates='upvoted_by')
+
 
     # prints object of this class --> debuging 
     def __repr__(self):
@@ -47,9 +49,17 @@ class Post(db.Model):
     user_id: sql_orm.Mapped[int] = sql_orm.mapped_column(sql_al.ForeignKey(User.id), index=True)
     author: sql_orm.Mapped[User] = sql_orm.relationship(back_populates='posts')
     tags = db.relationship('Tag', secondary=tags, lazy='subquery', backref=db.backref('posts', lazy=True))
+    upvotes: sql_orm.Mapped[int] = sql_orm.mapped_column(default=0)
+    upvoted_by = db.relationship('User', secondary='post_upvotes', back_populates='upvoted_posts')
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)
+
+# Association table for many-to-many relationship between posts and users who upvoted them
+post_upvotes = db.Table('post_upvotes',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('post_id', db.Integer, db.ForeignKey('post.id'), primary_key=True)
+)
 
 class Tag(db.Model):
     id: sql_orm.Mapped[int] = sql_orm.mapped_column(primary_key=True)
