@@ -9,8 +9,10 @@
         {% for post in posts %}
             <div class="post card mb-4 shadow-sm">
                 <div class="card-body">
-                    <!-- Post Title -->
-                    <h1 class="card-title">{{ post.title }}</h1>
+                    <!-- Post Title with Link -->
+                    <h1 class="card-title">
+                        <a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a>
+                    </h1>
                     <!-- Post Body -->
                     <p class="card-text">{{ post.body }}</p>
                     <!-- Post Author and Timestamp -->
