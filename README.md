@@ -24,13 +24,13 @@ Key Features and Functionality:
 
 3. (optional but recommended) Create a Python virtual environment and activate it:
 '''bash
-    python3 -m venv venv
-    source venv/bin/activate
+python3 -m venv venv
+source venv/bin/activate
 '''
 
 4. Install the required dependencies using the requirements.txt file:
 '''bash
-    pip install -r requirements.txt
+pip install -r requirements.txt
 '''
 Now your project should be ready to run
 
@@ -40,11 +40,11 @@ To run this project:
 
 1. Set the Flask application environment variable:
 '''bash
-    export FLASK_APP=main.py
+export FLASK_APP=main.py
 '''
 
 
 2. Run the application:
 '''bash
-    flask run
+flask run
 '''
