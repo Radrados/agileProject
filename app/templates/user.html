@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% block title %}{{user.username}} {% endblock %}
 
-{% block content  %}
-    <h1>{{ user.username }}</h1>
+{% block content %}
+<div class="container w-75">
+    <h1 class="pl-3 ml-4">{{ user.username }}</h1>
     <br>
-    <div>
-        <h1 class="mb-3">Posts</h1>
+    <div class="container">
+        <h2 class="mb-3 ml-4">Posts</h2>
         {% include "_postrendering.html" %}
         {% if prev_url %}
         <a href="{{ prev_url }}">Newer posts</a>
@@ -14,5 +15,7 @@
         <a href="{{ next_url }}">Older posts</a>
         {% endif %}
     </div>
+</div>
+
 
 {% endblock %}

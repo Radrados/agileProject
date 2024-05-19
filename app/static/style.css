@@ -1,8 +1,10 @@
 /* Style/* Style for the vote buttons */
 .vote-button {
     background: none;
-    border: 2px solid #007BFF;  /* Add an outline */
-    border-radius: 5px;  /* Optional: add border radius */
+    border: 2px solid #007BFF;
+    /* Add an outline */
+    border-radius: 5px;
+    /* Optional: add border radius */
     padding: 5px 10px;
     cursor: pointer;
     outline: none;
@@ -26,36 +28,52 @@
 .vote-button:hover {
     color: #fff;
     background-color: #007BFF;
-    border-color: #0056b3;  /* Darken border color on hover */
+    border-color: #0056b3;
+    /* Darken border color on hover */
 }
 
 .vote-button:focus {
-    border-color: #0056b3;  /* Darken border color on focus */
+    border-color: #0056b3;
+    /* Darken border color on focus */
 }
 
 /* Modal styles */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.6); /* Darker black with more opacity */
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Darker black with more opacity */
 }
 
 .modal-content {
-    background-color: #fff; /* White background for the modal content */
-    margin: 15% auto; /* 15% from the top and centered */
+    background-color: #fff;
+    /* White background for the modal content */
+    margin: 15% auto;
+    /* 15% from the top and centered */
     padding: 20px;
-    border-radius: 10px; /* Rounded corners */
-    width: 50%; /* Adjusted width */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    border-radius: 10px;
+    /* Rounded corners */
+    width: 50%;
+    /* Adjusted width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Subtle shadow for depth */
     text-align: center;
-    color: #333; /* Darker text color */
-    position: relative; /* To position the close button inside */
+    color: #333;
+    /* Darker text color */
+    position: relative;
+    /* To position the close button inside */
 }
 
 .close {
@@ -82,7 +100,8 @@
 
 .modal-body {
     font-size: 18px;
-    margin: 20px 0; /* Added margin for better spacing */
+    margin: 20px 0;
+    /* Added margin for better spacing */
 }
 
 .modal-footer {
@@ -105,39 +124,53 @@
 
 /* Other existing CSS */
 .login-card-bg {
-    border: 1px solid #ccc;  /* Adjusted thin border */
-    background-color: #f5f5dc; /* Light beige */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    transition: box-shadow 0.3s ease-in-out; /* Smooth transition for hover effect */
+    border: 1px solid #ccc;
+    /* Adjusted thin border */
+    background-color: #f5f5dc;
+    /* Light beige */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    transition: box-shadow 0.3s ease-in-out;
+    /* Smooth transition for hover effect */
 }
 
 body.login-background {
     background: linear-gradient(to bottom,
-        #f5f5dc 50%,  /* Beige color for the top half */
-        #ffffff 45%,  /* White stripe */
-        #ffffff 55%,  /* White stripe continues for 1% */
-        #ffbc42 51%   /* Orange color for the bottom half */
-    );
+            #f5f5dc 50%,
+            /* Beige color for the top half */
+            #ffffff 45%,
+            /* White stripe */
+            #ffffff 55%,
+            /* White stripe continues for 1% */
+            #ffbc42 51%
+            /* Orange color for the bottom half */
+        );
 }
 
 /* Ensure the navbar background is fully colored */
 .navbar {
-    background-color: #ffbc42 !important; /* Soft orange, with !important to override Bootstrap styles */
-    margin-bottom: 0; /* Removes any default margin below the navbar */
-    border: none; /* Removes any default border that might be styled differently */
+    background-color: #ffbc42 !important;
+    /* Soft orange, with !important to override Bootstrap styles */
+    margin-bottom: 0;
+    /* Removes any default margin below the navbar */
+    border: none;
+    /* Removes any default border that might be styled differently */
 }
 
 /* Style for navigation links to contrast or complement the navbar color */
 .navbar-light .navbar-nav .nav-link {
-    color: #333; /* Darker text for better readability */
+    color: #333;
+    /* Darker text for better readability */
 }
 
 .navbar-light .navbar-nav .nav-link:hover {
-    color: #fff; /* White text on hover for better visibility */
+    color: #fff;
+    /* White text on hover for better visibility */
 }
 
 body {
-    background-color: #f5f5dc; /* Light beige */
+    background-color: #f5f5dc;
+    /* Light beige */
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -190,4 +223,6 @@ footer {
     padding: 10px;
     background-color: #f9f9f9;
     border-radius: 5px;
-    box
+}
+
+
