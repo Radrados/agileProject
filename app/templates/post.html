@@ -16,18 +16,19 @@
 
             <!-- Display Upvote Count and Buttons -->
             <p>{{ post.upvotes }} upvotes</p>
-            <form action="{{ url_for('upvote', post_id=post.id) }}" method="post" style="display: inline;">
-                <button type="submit" class="vote-button">
-                    <img src="{{ url_for('static', filename='images/upvote.png') }}" alt="Upvote" class="vote-image">
+            <div class="d-flex mb-2"> <form action="{{ url_for('upvote', post_id=post.id) }}" method="post" style="display: inline;">
+                <button type="submit" class="vote-button mr-3">
+                    <img src="{{ url_for('static', filename='images/chevron-up.png') }}" alt="Upvote" class="vote-image">
                     Upvote
                 </button>
             </form>
             <form action="{{ url_for('unupvote', post_id=post.id) }}" method="post" style="display: inline;">
                 <button type="submit" class="vote-button">
-                    <img src="{{ url_for('static', filename='images/downvote.png') }}" alt="Downvote" class="vote-image">
+                    <img src="{{ url_for('static', filename='images/chevron-down.png') }}" alt="Downvote" class="vote-image">
                     Downvote
                 </button>
-            </form>
+            </form></div>
+           
 
             <!-- Display tags associated with the post -->
             <p>Tags:
@@ -72,18 +73,19 @@
                         <small class="text-muted">Commented by {{ comment.author.username }} on {{ comment.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
                         <!-- Comment Upvote Count and Buttons -->
                         <p>{{ comment.upvotes }} upvotes</p>
-                        <form action="{{ url_for('upvote_comment', comment_id=comment.id) }}" method="post" style="display: inline;">
-                            <button type="submit" class="vote-button">
-                                <img src="{{ url_for('static', filename='images/upvote.png') }}" alt="Upvote" class="vote-image">
+                        <div class="d-flex mb-2"> <form action="{{ url_for('upvote_comment', comment_id=comment.id) }}" method="post" style="display: inline;">
+                            <button type="submit" class="vote-button mr-3">
+                                <img src="{{ url_for('static', filename='images/chevron-up.png') }}" alt="Upvote" class="vote-image">
                                 Upvote
                             </button>
                         </form>
                         <form action="{{ url_for('unupvote_comment', comment_id=comment.id) }}" method="post" style="display: inline;">
                             <button type="submit" class="vote-button">
-                                <img src="{{ url_for('static', filename='images/downvote.png') }}" alt="Downvote" class="vote-image">
+                                <img src="{{ url_for('static', filename='images/chevron-down.png') }}" alt="Downvote" class="vote-image">
                                 Downvote
                             </button>
-                        </form>
+                        </form></div>
+                       
 
                         <!-- Reply to Comment Form -->
                         <form action="{{ url_for('post', post_id=post.id) }}" method="post" class="mt-2">
