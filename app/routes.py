@@ -207,12 +207,11 @@ def user(username):
         prev_url = url_for('user', username=user.username, page=posts.prev_num)
     return render_template('user.html', user=user, posts=posts.items, next_url=next_url, prev_url=prev_url)
 
-
 @app.route('/search', methods=['POST'])
 def search():
     search_post = request.form.get('search-post')
     if not search_post:
-        flash('You must enter text to search for in title', category='danger')
+        flash('You must enter text to search for in title, body, or tags.', category='danger')
         return redirect(url_for('index'))
 
     # Split the search_post string into an array of tags and query for each tag
@@ -221,15 +220,25 @@ def search():
         flash("No valid tags found", category='danger')
         return redirect(url_for('index'))
 
-    conditions = []  # creating a list of search conditions
-    for tag in search_tags:  # for each tag in the array, search the Post title and body for the tag
+    # Build conditions for searching title and body
+    conditions = []
+    for tag in search_tags:
         conditions.append(Post.title.ilike(f'%{tag}%'))
         conditions.append(Post.body.ilike(f'%{tag}%'))
 
-    query = sql_al.or_(*conditions)  # create the query that will accept the tags either in the title or the body
+    # Query for posts matching title or body
+    query = sql_al.or_(*conditions)
     search_results = Post.query.filter(query).order_by(Post.timestamp.desc()).all()
-    return render_template('search.html', posts=search_results)
 
+    # Separate posts matching tags
+    tag_conditions = [Post.tags.any(Tag.name.ilike(f'%{tag}%')) for tag in search_tags]
+    tag_query = sql_al.or_(*tag_conditions)
+    tag_results = Post.query.filter(tag_query).order_by(Post.timestamp.desc()).all()
+
+    # Combine results, ensuring tag matches come first
+    combined_results = tag_results + [post for post in search_results if post not in tag_results]
+
+    return render_template('search.html', posts=combined_results)
 
 @app.route('/upvote/<int:post_id>', methods=['POST'])
 @login_required
