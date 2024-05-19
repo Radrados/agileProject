@@ -6,4 +6,4 @@ The repository should also include a folder called "deliverables", within the fo
 The three deliverables will be:
 1. v0.1_SignUp_and_Login_feature.mp4 -  the video will display a user signing up and entering the home page.
 2. v1.0_Tags.mp4 - this video displays how the Post tags field works and allows for easier user searches.
-3. All features + front end - the video will show the new friendly web interface such as upvoting and downvoting Posts/comments
+3. v2.0_Frontend_Features.mp4 - this video displays the front-end features as our final deliverable that would make this app ready for it's first release.
