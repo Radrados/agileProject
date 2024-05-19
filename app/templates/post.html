@@ -21,13 +21,15 @@
                 <button type="submit" class="btn btn-danger btn-sm">Un-upvote</button>
             </form>
 
-            <!-- Display Tags Associated with the Post -->
-            <p>Tags:
-                {% for tag in post.tags %}
-                    <a href="{{ url_for('tag', tag_name=tag.name) }}" class="badge badge-primary">{{ tag.name }}</a>
-                    {% if not loop.last %}, {% endif %}
-                {% endfor %}
-            </p>
+
+    <!-- Display tags associated with the post -->
+    <!-- fix display of tags here   -->
+    <p>Tags:
+        {% for tag in post.tags %}
+            <a href="{{ url_for('tag', tag_name=tag.name) }}">{{ tag.name }}</a>
+            {% if not loop.last %}, {% endif %}
+        {% endfor %}
+    </p>
 
             <!-- Display Uploaded File if Exists -->
             {% if post.file_path %}
