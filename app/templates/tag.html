@@ -8,12 +8,7 @@
         <h1 class="display-4">Posts tagged with "{{ tag.name }}"</h1>
     </div>
 
-    {% if posts %}
-        {% for post in posts %}
                 {% include "_postrendering.html" %}
-
-            <hr>
-        {% endfor %}
 
         <div class="pagination">
             {% if prev_url %}
@@ -23,8 +18,6 @@
                 <a href="{{ next_url }}" class="btn btn-secondary">Next</a>
             {% endif %}
         </div>
-    {% else %}
-        <p>No posts found with this tag.</p>
-    {% endif %}
+
 </div>
 {% endblock %}
