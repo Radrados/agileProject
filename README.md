@@ -49,3 +49,6 @@ export FLASK_APP=main.py
 ```bash
 flask run
 ```
+
+## Database
+create_all() in models.py initialises the tables based on the schema defined in models.py. For instance if a new table is added, it will create it in the database. 
