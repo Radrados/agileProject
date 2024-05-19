@@ -16,10 +16,16 @@
             <!-- Display Upvote Count and Buttons -->
         <p>{{ post.upvotes }} upvotes</p>
         <form action="{{ url_for('upvote', post_id=post.id) }}" method="post" style="display: inline;">
-            <button type="submit" class="btn btn-success btn-sm">Upvote</button>
+            <button type="submit" class="vote-button">
+                <img src="{{ url_for('static', filename='images/upvote.png') }}" alt="Upvote" class="vote-image">
+                Upvote
+            </button>
         </form>
         <form action="{{ url_for('unupvote', post_id=post.id) }}" method="post" style="display: inline;">
-            <button type="submit" class="btn btn-danger btn-sm">Un-upvote</button>
+            <button type="submit" class="vote-button">
+                <img src="{{ url_for('static', filename='images/downvote.png') }}" alt="Downvote" class="vote-image">
+                Downvote
+            </button>
         </form>
         <!-- Display tags associated with the post -->
         <p>Tags:
@@ -33,4 +39,3 @@
 {% else %}
 <div class="alert alert-light" role="alert">No posts to show.</div>
 {% endfor %}
-

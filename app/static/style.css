@@ -1,3 +1,38 @@
+/* Style/* Style for the vote buttons */
+.vote-button {
+    background: none;
+    border: 2px solid #007BFF;  /* Add an outline */
+    border-radius: 5px;  /* Optional: add border radius */
+    padding: 5px 10px;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.vote-button:hover .vote-image {
+    transform: scale(1.1);
+}
+
+.vote-image {
+    height: 24px;
+    margin-right: 5px;
+    transition: transform 0.2s;
+}
+
+.vote-button:hover {
+    color: #fff;
+    background-color: #007BFF;
+    border-color: #0056b3;  /* Darken border color on hover */
+}
+
+.vote-button:focus {
+    border-color: #0056b3;  /* Darken border color on focus */
+}
+
 /* Modal styles */
 .modal {
     display: none; /* Hidden by default */
