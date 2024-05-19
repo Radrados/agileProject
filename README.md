@@ -18,11 +18,12 @@ Key Features and Functionality:
 
 ## Installation
 1. First clone the repository (if you do not have all the files stored already)
-    git clone https://github.com/Radrados/agileProject.git
+   
+   git clone https://github.com/Radrados/agileProject.git
 
-2. Navigate to the project director in terminal
+4. Navigate to the project director in terminal
 
-3. (optional but recommended) Create a Python virtual environment and activate it:
+5. (optional but recommended) Create a Python virtual environment and activate it:
 ```bash
 python3 -m venv venv
 source venv/bin/activate
