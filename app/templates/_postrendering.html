@@ -1,6 +1,6 @@
 <!-- _postsrendering.html -->
 {% for post in posts %}
-<div class="post card mb-4 shadow-sm">
+<div class="post card mb-4 shadow-sm ml-4 mr-4">
     <div class="card-body">
         <!-- Post Title with Link -->
         <h1 class="card-title">
@@ -15,18 +15,19 @@
            </a> on {{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
             <!-- Display Upvote Count and Buttons -->
         <p>{{ post.upvotes }} upvotes</p>
-        <form action="{{ url_for('upvote', post_id=post.id) }}" method="post" style="display: inline;">
-            <button type="submit" class="vote-button">
-                <img src="{{ url_for('static', filename='images/upvote.png') }}" alt="Upvote" class="vote-image">
+        <div class="d-flex mb-2"><form action="{{ url_for('upvote', post_id=post.id) }}" method="post" style="display: inline;">
+            <button type="submit" class="vote-button mr-3">
+                <img src="{{ url_for('static', filename='images/chevron-up.png') }}" alt="Upvote" class="vote-image">
                 Upvote
             </button>
         </form>
         <form action="{{ url_for('unupvote', post_id=post.id) }}" method="post" style="display: inline;">
             <button type="submit" class="vote-button">
-                <img src="{{ url_for('static', filename='images/downvote.png') }}" alt="Downvote" class="vote-image">
+                <img src="{{ url_for('static', filename='images/chevron-down.png') }}" alt="Downvote" class="vote-image">
                 Downvote
             </button>
-        </form>
+        </form></div>
+        
         <!-- Display tags associated with the post -->
         <p>Tags:
         {% for tag in post.tags %}
