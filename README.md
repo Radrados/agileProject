@@ -14,3 +14,37 @@ Key Features and Functionality:
 - Forum Posting: Students can post questions, categorize them based on subjects or topics, and receive answers from peers.
 - Real-time Interactions: Utilizing JavaScript, the forum supports real-time posting and responses without needing to refresh the page.
 - Data Management: Migrations directory suggests a system in place for handling database schema updates, ensuring the application adapts over time to new requirements.
+
+
+## Installation
+1. First clone the repository (if you do not have all the files stored already)
+    git clone https://github.com/Radrados/agileProject.git
+
+2. Navigate to the project director in terminal
+
+3. (optional but recommended) Create a Python virtual environment and activate it:
+'''bash
+    python3 -m venv venv
+    source venv/bin/activate
+'''
+
+4. Install the required dependencies using the requirements.txt file:
+'''bash
+    pip install -r requirements.txt
+'''
+Now your project should be ready to run
+
+
+## Running the Applications
+To run this project:
+
+1. Set the Flask application environment variable:
+'''bash
+    export FLASK_APP=main.py
+'''
+
+
+2. Run the application:
+'''bash
+    flask run
+'''
