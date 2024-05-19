@@ -1,0 +1,17 @@
+Minute Of Meeting 23/03/2024
+Attendies:
+Radin
+Madhav
+Nikita
+Rados
+
+Apoligies:
+
+
+Agenda of Meeting:
+- Review of project description
+- Continued Brainstorming of application
+- Brainstorming implementation features we want to implement
+
+Meeting outcomes:
+- Came up with concept of Chugg. A webform for university students to get help with exams and assignments.

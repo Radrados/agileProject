@@ -1,0 +1,19 @@
+Minute Of Meeting 08/05/2024
+Attendies:
+Radin
+Madhav
+Nikita
+Rados
+
+Apoligies:
+
+
+Agenda of Meeting:
+- Follow up of each member's task
+- Review current status
+- Assign tasks
+
+Meeting outcomes:
+- Discussed to do pagination, front end still needed to be done. Post and Comment required an extension due to team member other unit commitments
+- Continued coding in each field
+- Came up with Project_IDEAS.txt for cool features we wanted to implement

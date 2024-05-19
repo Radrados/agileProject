@@ -1,0 +1,19 @@
+Minute Of Meeting 02/05/2024
+Attendies:
+Radin
+Madhav
+Nikita
+Rados
+
+Apoligies:
+
+
+Agenda of Meeting:
+- Follow up of each member's task
+- Review current status
+- Assign tasks
+
+Meeting outcomes:
+- Discussed Post field attributes, form designs and possible features to implement.
+- Divided tasks into Database Post and Comments by Nikita, Unique username by Radin, Front end web design and basic page layout by Madhave and Rados
+- Continued coding in each field
