@@ -23,7 +23,7 @@ Key Features and Functionality:
 
 4. Navigate to the project director in terminal
 
-5. (optional but recommended) Create a Python virtual environment and activate it:
+5. Create a Python virtual environment and activate it:
 ```bash
 python3 -m venv venv
 source venv/bin/activate
