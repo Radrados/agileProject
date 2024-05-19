@@ -8,3 +8,4 @@ tmp_env/
 app.db
 
 .idea/
+venv/
